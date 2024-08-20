@@ -1,7 +1,9 @@
-import { Given, When, Then, Before, After } from '@cucumber/cucumber';
+import { Given, When, Then, Before, After,Status } from '@cucumber/cucumber';
 import { Browser, BrowserContext, Page, chromium } from '@playwright/test';
 import { ENV } from '../../utils/env';
 import { LoginPage } from '../../pages/LoginPage';
+import fs from 'fs-extra';
+import path from 'path';
 import { PoliticsPage } from '../../pages/PoliticsPage';
 
 let browser: Browser;
@@ -12,40 +14,63 @@ let politicsPage: PoliticsPage;
 
 Before(async function () {
   console.log("Launching browser...");
-  browser = await chromium.launch({ headless: false });
-  context = await browser.newContext({ storageState: 'auth.json' });
-  page = await context.newPage();
   
+  // Launch the browser
+  browser = await chromium.launch({
+    headless: false,
+  });
+
+  // Create a new browser context with video recording enabled
+  context = await browser.newContext({
+    storageState: 'auth.json',
+    recordVideo: { dir: 'videos/', size: { width: 1280, height: 1024 } }
+  });
+
+  // Create a new page within the context
+  page = await context.newPage();
+
+  // Initialize Page Objects
   loginPage = new LoginPage(page);
   politicsPage = new PoliticsPage(page);
+
   console.log("Browser launched and new page created.");
 });
 
-After(async function () {
+After(async function (scenario) {
   console.log("Tearing down...");
 
   try {
-    if (page && !page.isClosed()) {
+    // Take screenshot if the scenario failed
+    if (scenario.result && scenario.result.status === Status.FAILED) {
+      const screenshotPath = path.join('screenshots', `${scenario.pickle.name}.png`);
+      console.log(`Scenario failed. Taking screenshot: ${screenshotPath}`);
+      await this.page.screenshot({ path: screenshotPath, fullPage: true });
+      this.attach(fs.readFileSync(screenshotPath), 'image/png');
+    }
+
+    // Close the page if it exists and is not already closed
+    if (this.page && !this.page.isClosed()) {
       console.log("Closing page...");
-      await page.close();
+      await this.page.close();
     }
 
-    if (context) {
+    // Close the context if it exists
+    if (this.context) {
       console.log("Closing context...");
-      await context.close();
+      await this.context.close();
     }
 
-    if (browser) {
+    // Close the browser if it exists
+    if (this.browser) {
       console.log("Closing browser...");
-      await browser.close();
+      await this.browser.close();
     }
 
     console.log("Teardown completed.");
   } catch (error) {
-    console.log("Error during teardown:", error);
+    console.error("Error during teardown:", error);
   }
 });
-
 Given('I am logged in to Betfair', { timeout: 60 * 1000 }, async function () {
   await loginPage.login(ENV.username!, ENV.password!);
 });

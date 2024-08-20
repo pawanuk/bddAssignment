@@ -1,0 +1,117 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "place-bets-on-multiple-candidates;place-bets-on-candidates-with-random-data",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "Place bets on candidates with random data",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 625026899
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I am logged in to Betfair",
+            "match": {
+              "location": "src\\test\\steps\\place_bets_steps.ts:74"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 24116200500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "I navigate to the Politics section",
+            "match": {
+              "location": "src\\test\\steps\\place_bets_steps.ts:78"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 7704872200
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "candidate"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Kamala Harris"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Donald Trump"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Nikki Haley"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "And ",
+            "line": 6,
+            "name": "I place a bet on the following candidates:",
+            "match": {
+              "location": "src\\test\\steps\\place_bets_steps.ts:82"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16142912799
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 11,
+            "name": "I log out from the application",
+            "match": {
+              "location": "src\\test\\steps\\place_bets_steps.ts:91"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 291602900
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1417399
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "place-bets-on-multiple-candidates",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Place bets on multiple candidates",
+    "tags": [],
+    "uri": "src\\test\\features\\place_bets.feature"
+  }
+]
