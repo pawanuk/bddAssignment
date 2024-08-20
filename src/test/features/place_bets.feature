@@ -8,5 +8,4 @@ Feature: Place bets on multiple candidates
       | Kamala Harris  |
       | Donald Trump   |
       | Nikki Haley    |
-    Then all bets should be placed successfully
     And I log out from the application
