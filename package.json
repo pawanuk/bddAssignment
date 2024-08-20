@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test":"cucumber-js test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@cucumber/cucumber": "^10.9.0",
     "@playwright/test": "^1.46.1",
-    "@types/node": "^22.4.1"
+    "@types/node": "^22.4.1",
+    "ts-node": "^10.9.2"
   }
 }
