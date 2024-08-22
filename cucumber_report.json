@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 821660799
+              "duration": 573075399
             }
           },
           {
@@ -23,11 +23,11 @@
             "line": 4,
             "name": "I am logged in to Betfair",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:98"
+              "location": "src\\test\\steps\\place_bets_steps.ts:81"
             },
             "result": {
               "status": "passed",
-              "duration": 23757704699
+              "duration": 23463352000
             }
           },
           {
@@ -36,11 +36,11 @@
             "line": 5,
             "name": "I navigate to the Politics section",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:102"
+              "location": "src\\test\\steps\\place_bets_steps.ts:85"
             },
             "result": {
               "status": "passed",
-              "duration": 3781780500
+              "duration": 4043145599
             }
           },
           {
@@ -74,11 +74,12 @@
             "line": 6,
             "name": "I place a bet on the following candidates:",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:106"
+              "location": "src\\test\\steps\\place_bets_steps.ts:89"
             },
             "result": {
-              "status": "passed",
-              "duration": 16057361899
+              "status": "failed",
+              "duration": 31106679800,
+              "error_message": "Error: Verification failed for Kamala Harris: Expected profit: 495, Actual profit: 1425\n    at World.<anonymous> (C:\\Users\\pawan\\Documents\\Workspace\\bddAssignment\\src\\test\\steps\\place_bets_steps.ts:108:13)"
             }
           },
           {
@@ -87,11 +88,11 @@
             "line": 11,
             "name": "I log out from the application",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:115"
+              "location": "src\\test\\steps\\place_bets_steps.ts:113"
             },
             "result": {
-              "status": "passed",
-              "duration": 247116000
+              "status": "skipped",
+              "duration": 0
             }
           },
           {
@@ -99,7 +100,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 666800
+              "duration": 1213500
             }
           }
         ],

@@ -10,7 +10,7 @@
       "formatOptions": {
         "snippetInterface": "async-await"
       },
-      "retry": 2, 
+      "retry": 0, 
       "parallel": 5, 
       "format": [
         "html:reports/cucumber-report.html" 
