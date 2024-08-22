@@ -1,10 +1,11 @@
+
 // import { Given, When, Then, Before, After,Status } from '@cucumber/cucumber';
 // import { Browser, BrowserContext, Page, chromium } from '@playwright/test';
 // import { ENV } from '../../utils/env';
 // import { LoginPage } from '../../pages/LoginPage';
 // import fs from 'fs-extra';
 // import path from 'path';
-// import { PoliticsPage } from '../../pages/PoliticsPage1';
+// import { PoliticsPage } from '../../pages/PoliticsPage';
 
 // let browser: Browser;
 // let context: BrowserContext;
@@ -95,7 +96,9 @@
 //     console.error("Error during teardown:", error);
 //   }
 // });
+
 // Given('I am logged in to Betfair', { timeout: 60 * 1000 }, async function () {
+//   // This step will now only log in once for the entire scenario
 //   await loginPage.login(ENV.username!, ENV.password!);
 // });
 
@@ -104,14 +107,14 @@
 // });
 
 // When('I place a bet on the following candidates:', { timeout: 120 * 1000 }, async function (dataTable) {
-//   const candidates = dataTable.hashes();
-//   for (const candidate of candidates) {
-//     const randomOdds = (Math.random() * (5 - 1.01) + 1.01).toFixed(2);
-//     const randomAmount = (Math.random() * (500 - 10) + 10).toFixed(2);
-//     await politicsPage.placeBet(candidate.candidate, randomOdds, randomAmount);
-//   }
-// });
-
-// Then('I log out from the application', async function () {
-//   await politicsPage.logout();
-// });
+//     const candidates = dataTable.hashes();
+//     for (const candidate of candidates) {
+//       const randomOdds = (Math.random() * (5 - 1.01) + 1.01).toFixed(2);
+//       const randomAmount = (Math.random() * (500 - 10) + 10).toFixed(2);
+//       await politicsPage.placeBet(candidate.candidate, Number(randomOdds), Number(randomAmount));
+//     }
+//   });
+  
+//   Then('I log out from the application', async function () {
+//     await politicsPage.logOut();
+//   });

@@ -1,4 +1,4 @@
-import { Given, When, Then, Before, After,Status } from '@cucumber/cucumber';
+import { Given, When, Then, Before, After, Status } from '@cucumber/cucumber';
 import { Browser, BrowserContext, Page, chromium } from '@playwright/test';
 import { ENV } from '../../utils/env';
 import { LoginPage } from '../../pages/LoginPage';
@@ -60,6 +60,7 @@ Before(async function () {
 
   console.log("Browser launched and new page created.");
 });
+
 After(async function (scenario) {
   console.log("Tearing down...");
 
@@ -95,6 +96,7 @@ After(async function (scenario) {
     console.error("Error during teardown:", error);
   }
 });
+
 Given('I am logged in to Betfair', { timeout: 60 * 1000 }, async function () {
   await loginPage.login(ENV.username!, ENV.password!);
 });

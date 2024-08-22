@@ -1,6 +1,8 @@
 import { BasePage } from './BasePage';
-import {expect} from '@playwright/test'
+import { expect } from '@playwright/test';
+
 export class PoliticsPage extends BasePage {
+
   async navigateToPoliticsSection() {
     console.log("Attempting to click the Politics tab...");
 
@@ -55,11 +57,45 @@ export class PoliticsPage extends BasePage {
     const textBoxLocator = betslip.locator('betslip-price-ladder').getByRole('textbox');
     const sizeInputLocator = betslip.locator('betslip-size-input').getByRole('textbox');
 
+    // Verify that the odds and amount are entered correctly
     await textBoxLocator.fill(odds);
     await sizeInputLocator.fill(amount);
 
+    const enteredOdds = await textBoxLocator.inputValue();
+    const enteredAmount = await sizeInputLocator.inputValue();
+
+    expect(enteredOdds).toBe(odds);
+    expect(enteredAmount).toBe(amount);
+
     console.log(`Bet added to betslip for ${candidateName}.`);
+
+    // Calculate expected profit and verify it
+    const expectedProfit = (parseFloat(odds) - 1) * parseFloat(amount);
+    const displayedProfit = await this.getDisplayedProfit(candidateName);
+
+    // Verify profit ignoring decimals
+    expect(Math.floor(displayedProfit)).toBe(Math.floor(expectedProfit));
+
+    console.log(`Expected profit: £${expectedProfit.toFixed(2)}, Displayed profit: £${displayedProfit.toFixed(2)}`);
     await this.page.waitForTimeout(5000); // Wait for 5 seconds between bets
+  }
+
+  async getDisplayedProfit(candidateName: string): Promise<number> {
+    // Use a more specific locator to target the betslip row containing the candidate
+    const betslipRowLocator = this.page.locator(`.betslip-editable-bet:has-text("${candidateName}")`);
+
+    // Wait for the betslip row to be visible, indicating the bet details are loaded
+    await betslipRowLocator.waitFor({ state: 'visible' });
+
+    // Find the profit element within that row, ensuring it contains the '£' symbol
+    const profitLocator = betslipRowLocator.locator('span.betslip__editable-bet__cell:has-text("£")'); 
+
+    // Wait for the profit element to be visible
+    await profitLocator.waitFor({ state: 'visible' });
+
+    const profitText = await profitLocator.textContent();
+    const profitValue = parseFloat(profitText?.replace('£', '') || '0');
+    return profitValue;
   }
 
   async logout() {
@@ -91,10 +127,5 @@ export class PoliticsPage extends BasePage {
     if (!logoutButton) {
       throw new Error('Log Out button not found using any of the locators');
     }
-
-    // console.log("Waiting for the login page to appear after logout...");
-    // await this.page.waitForSelector('input[placeholder="email/username"]', { timeout: 10000 });
-    // expect(await this.page.locator('input[value="Log In"]').isVisible()).toBeTruthy();
-    // console.log("Logged out successfully.");
   }
 }
