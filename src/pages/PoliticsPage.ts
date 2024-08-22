@@ -1,9 +1,8 @@
 import { BasePage } from './BasePage';
-import {expect} from '@playwright/test'
+
 export class PoliticsPage extends BasePage {
   async navigateToPoliticsSection() {
     console.log("Attempting to click the Politics tab...");
-
     const locators = [
       this.page.locator('#subnav').getByRole('link', { name: 'Politics' }),
       this.page.locator('.subnav-link.mod-link').filter({ hasText: 'Politics' }),
@@ -11,9 +10,7 @@ export class PoliticsPage extends BasePage {
       this.page.locator('a[href="en/politics-betting-2378961"]'),
       this.page.locator('a:has-text("Politics")')
     ];
-
     let elementFound = false;
-
     for (const locator of locators) {
       try {
         const element = await locator.first();
@@ -28,7 +25,6 @@ export class PoliticsPage extends BasePage {
         continue;
       }
     }
-
     if (!elementFound) {
       console.log('Politics link not found or not clickable, navigating directly to the URL...');
       await this.goto('https://www.betfair.com/exchange/plus/en/politics-betting-2378961', { waitUntil: 'networkidle' });
@@ -36,43 +32,38 @@ export class PoliticsPage extends BasePage {
       console.log("Waiting for the Politics page to load...");
       await this.page.waitForLoadState('networkidle', { timeout: 20000 });
     }
-
     console.log("Politics page loaded.");
   }
 
-  async placeBet(candidateName: string, odds: string, amount: string) {
+  async placeBet(candidateName: string, odds: number, amount: number) {
     console.log(`Adding bet for: ${candidateName} with odds ${odds} and amount ${amount}`);
-
     const candidateRow = this.page.locator(`//h3[text()="${candidateName}"]/ancestor::tr`);
     await candidateRow.waitFor();
-
     const backButton = candidateRow.locator('.bet-buttons.back-cell.last-back-cell button:has-text("£")');
     await backButton.click();
-
     await this.page.waitForSelector('betslip-editable-bet');
-
     const betslip = this.page.locator('betslip-editable-bet').filter({ hasText: `${candidateName} £` });
     const textBoxLocator = betslip.locator('betslip-price-ladder').getByRole('textbox');
     const sizeInputLocator = betslip.locator('betslip-size-input').getByRole('textbox');
-
-    await textBoxLocator.fill(odds);
-    await sizeInputLocator.fill(amount);
-
+    await textBoxLocator.fill(odds.toString());
+    await sizeInputLocator.fill(amount.toString());
     console.log(`Bet added to betslip for ${candidateName}.`);
-    await this.page.waitForTimeout(5000); // Wait for 5 seconds between bets
+  }
+
+  async getDisplayedProfit(candidateName: string, betIndex: number): Promise<number> {
+    const profitLocator = this.page.locator(`(//span[contains(@class,'betslip__editable-bet__item betslip__editable-bet__cell')])[${betIndex}]`);
+    const profitText = await profitLocator.textContent();
+    console.log(`Using locator for profit: ${profitLocator}`);
+    return parseFloat(profitText!.replace(/[^0-9.-]+/g, ""));
   }
 
   async logout() {
     console.log("Logging out...");
-
-    // Open the My Account menu to access the Log Out button
     await this.page.getByText('My Account pawanuk My Betfair').click();
-
     const locators = [
       this.page.getByRole('button', { name: 'Log Out' }),
       this.page.locator('button:has-text("Log Out")')
     ];
-
     let logoutButton;
     for (const locator of locators) {
       try {
@@ -87,14 +78,8 @@ export class PoliticsPage extends BasePage {
         continue;
       }
     }
-
     if (!logoutButton) {
       throw new Error('Log Out button not found using any of the locators');
     }
-
-    // console.log("Waiting for the login page to appear after logout...");
-    // await this.page.waitForSelector('input[placeholder="email/username"]', { timeout: 10000 });
-    // expect(await this.page.locator('input[value="Log In"]').isVisible()).toBeTruthy();
-    // console.log("Logged out successfully.");
   }
 }
