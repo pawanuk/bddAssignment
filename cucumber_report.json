@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 746823800
+              "duration": 821660799
             }
           },
           {
@@ -23,11 +23,11 @@
             "line": 4,
             "name": "I am logged in to Betfair",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:100"
+              "location": "src\\test\\steps\\place_bets_steps.ts:98"
             },
             "result": {
               "status": "passed",
-              "duration": 24335868999
+              "duration": 23757704699
             }
           },
           {
@@ -36,12 +36,11 @@
             "line": 5,
             "name": "I navigate to the Politics section",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:105"
+              "location": "src\\test\\steps\\place_bets_steps.ts:102"
             },
             "result": {
-              "status": "failed",
-              "duration": 1137733000,
-              "error_message": "locator.click: Error: strict mode violation: locator('text=Politics') resolved to 2 elements:\n    1) <a ng-transclude=\"\" data-language=\"en\" data-link-type=\"SPORT\" data-betting-verb=\"betting\" ng-bind=\"::subnavItem.name\" class=\"subnav-link mod-link\" data-event-type-id=\"2378961\" data-event-type-name=\"politics\" href=\"en/politics-betting-2378961\" ng-if=\"subnavItem.sportItem && subnavItem.name\" ng-click=\"bfSubNavCtrl.events.handleInternalLink($event)\">Politics</a> aka locator('#subnav').getByRole('link', { name: 'Politics' })\n    2) <a target=\"\" bf-nav-link=\"\" link-id=\"2378961\" link-sport=\"2378961\" link-zp-aware=\"true\" data-nodeid=\"2378961\" link-type=\"EVENT_TYPE\" link-node-model=\"node\" link-params=\"{\"nodeId\":\"\"}\" href=\"en/politics-betting-2378961\" ng-click=\"events.nodeClick(node, $event)\" class=\"navigation-link    EVENT_TYPE   open \" ng-if=\"data.context === 'LHM' && events.isNodeVisible(node)\">…</a> aka locator('tree-section').getByRole('link', { name: 'Politics' })\n\nCall log:\n  \u001b[2m- waiting for locator('text=Politics')\u001b[22m\n\n    at PoliticsPage.navigateToPoliticsSection (C:\\Users\\pawan\\Documents\\Workspace\\bddAssignment\\src\\pages\\PoliticsPage.ts:9:24)\n    at async World.<anonymous> (C:\\Users\\pawan\\Documents\\Workspace\\bddAssignment\\src\\test\\steps\\place_bets_steps.ts:106:3)"
+              "status": "passed",
+              "duration": 3781780500
             }
           },
           {
@@ -75,11 +74,11 @@
             "line": 6,
             "name": "I place a bet on the following candidates:",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:109"
+              "location": "src\\test\\steps\\place_bets_steps.ts:106"
             },
             "result": {
-              "status": "skipped",
-              "duration": 0
+              "status": "passed",
+              "duration": 16057361899
             }
           },
           {
@@ -88,11 +87,11 @@
             "line": 11,
             "name": "I log out from the application",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:118"
+              "location": "src\\test\\steps\\place_bets_steps.ts:115"
             },
             "result": {
-              "status": "skipped",
-              "duration": 0
+              "status": "passed",
+              "duration": 247116000
             }
           },
           {
@@ -100,7 +99,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1030200
+              "duration": 666800
             }
           }
         ],
