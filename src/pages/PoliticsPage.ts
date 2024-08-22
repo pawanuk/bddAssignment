@@ -1,10 +1,20 @@
 import { BasePage } from './BasePage';
+import { BetResult } from '../types/BetResult';
 
 export class PoliticsPage extends BasePage {
-  async navigateToPoliticsSection() {
+  private locators = {
+    politicsLink: this.page.locator('#subnav').getByRole('link', { name: 'Politics' }),
+    candidateRow: (candidateName: string) => this.page.locator(`//h3[text()="${candidateName}"]/ancestor::tr`),
+    betslip: this.page.locator('betslip-editable-bet'),
+    profitLocator: (candidateName: string) => this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`),
+    logoutButton: this.page.getByRole('button', { name: 'Log Out' }),
+    myAccountButton: this.page.getByText('My Account pawanuk My Betfair')
+  };
+
+  async navigateToPoliticsSection(): Promise<void> {
     console.log("Attempting to click the Politics tab...");
     const locators = [
-      this.page.locator('#subnav').getByRole('link', { name: 'Politics' }),
+      this.locators.politicsLink,
       this.page.locator('.subnav-link.mod-link').filter({ hasText: 'Politics' }),
       this.page.locator('a[data-event-type-name="politics"]'),
       this.page.locator('a[href="en/politics-betting-2378961"]'),
@@ -35,9 +45,9 @@ export class PoliticsPage extends BasePage {
     console.log("Politics page loaded.");
   }
 
-  async placeBet(candidateName: string, odds: number, amount: number) {
+  async placeBet(candidateName: string, odds: number, amount: number): Promise<void> {
     console.log(`Adding bet for: ${candidateName} with odds ${odds} and amount ${amount}`);
-    const candidateRow = this.page.locator(`//h3[text()="${candidateName}"]/ancestor::tr`);
+    const candidateRow = this.locators.candidateRow(candidateName);
     await candidateRow.waitFor();
     const backButton = candidateRow.locator('.bet-buttons.back-cell.last-back-cell button:has-text("£")');
     await backButton.click();
@@ -49,21 +59,52 @@ export class PoliticsPage extends BasePage {
     await sizeInputLocator.fill(amount.toString());
     console.log(`Bet added to betslip for ${candidateName}.`);
   }
+  async placeBetsAndVerify(dataTable: any): Promise<void> {
+    const candidates = dataTable.hashes();
+    const expectedResults: BetResult[] = [];
 
+    for (const candidate of candidates) {
+      const randomOdds = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
+      const randomAmount = Math.floor(Math.random() * (500 - 10 + 1)) + 10;
+      const expectedProfit = (randomOdds - 1) * randomAmount;
+
+      expectedResults.push({
+        name: candidate.candidate,
+        odds: randomOdds,
+        amount: randomAmount,
+        profit: expectedProfit,
+      });
+
+      await this.placeBet(candidate.candidate, randomOdds, randomAmount);
+    }
+
+    await this.verifyBets(expectedResults);
+  }
+
+  async verifyBets(expectedResults: BetResult[]): Promise<void> {
+    for (let i = 0; i < expectedResults.length; i++) {
+      const candidate = expectedResults[i];
+      const actualProfit = await this.getDisplayedProfit(candidate.name, i + 1);
+      console.log(`Verifying bet for ${candidate.name}`);
+
+      if (candidate.profit !== actualProfit) {
+        throw new Error(
+          `Verification failed for ${candidate.name}: Expected profit: ${candidate.profit}, Actual profit: ${actualProfit}`
+        );
+      }
+    }
+  }
   async getDisplayedProfit(candidateName: string, betIndex: number): Promise<number> {
-    const profitLocator = this.page.locator(`(//span[contains(@class,'betslip__editable-bet__item betslip__editable-bet__cell')])[${betIndex}]`);
+    const profitLocator = this.locators.profitLocator(candidateName);
     const profitText = await profitLocator.textContent();
     console.log(`Using locator for profit: ${profitLocator}`);
     return parseFloat(profitText!.replace(/[^0-9.-]+/g, ""));
   }
 
-  async logout() {
+  async logout(): Promise<void> {
     console.log("Logging out...");
-    await this.page.getByText('My Account pawanuk My Betfair').click();
-    const locators = [
-      this.page.getByRole('button', { name: 'Log Out' }),
-      this.page.locator('button:has-text("Log Out")')
-    ];
+    await this.locators.myAccountButton.click();
+    const locators = [this.locators.logoutButton, this.page.locator('button:has-text("Log Out")')];
     let logoutButton;
     for (const locator of locators) {
       try {

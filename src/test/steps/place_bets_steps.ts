@@ -87,29 +87,9 @@ When('I navigate to the Politics section', { timeout: 20 * 1000 }, async functio
 });
 
 When('I place a bet on the following candidates:', { timeout: 120 * 1000 }, async function (dataTable) {
-  const candidates = dataTable.hashes();
-  const expectedResults: BetResult[] = [];
-  for (const candidate of candidates) {
-    const randomOdds = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
-    const randomAmount = Math.floor(Math.random() * (500 - 10 + 1)) + 10;
-    const expectedProfit = (randomOdds - 1) * randomAmount;
-    expectedResults.push({ name: candidate.candidate, odds: randomOdds, amount: randomAmount, profit: expectedProfit });
-    await politicsPage.placeBet(candidate.candidate, randomOdds, randomAmount);
-  }
-  
-  console.log("Waiting for all bets to be processed...");
-  await page.waitForTimeout(30000); // Waiting for UI to update
-
-  for (let i = 0; i < expectedResults.length; i++) {
-    const candidate = expectedResults[i];
-    const actualProfit = await politicsPage.getDisplayedProfit(candidate.name, i + 1);
-    console.log(`Verifying bet for ${candidate.name}`);
-    if (candidate.profit !== actualProfit) {
-      throw new Error(`Verification failed for ${candidate.name}: Expected profit: ${candidate.profit}, Actual profit: ${actualProfit}`);
-    }
-  }
+    await politicsPage.placeBetsAndVerify(dataTable);
 });
 
 Then('I log out from the application', async function () {
-  await politicsPage.logout();
+    await politicsPage.logout();
 });
