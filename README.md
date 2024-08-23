@@ -72,8 +72,8 @@ Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/your-repository/betfair-automation.git
-cd betfair-automation
+git clone https:
+cd 
 Install dependencies:
 
 bash
