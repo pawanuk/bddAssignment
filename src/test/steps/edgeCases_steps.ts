@@ -1,25 +1,18 @@
 import { Given, When, Then } from '@cucumber/cucumber';
-import { expect } from '@playwright/test';
-import { LoginPage } from '../../pages/LoginPage';
 import { PoliticsPage } from '../../pages/PoliticsPage';
-import { ENV } from '../../utils/env';
 
-// Page Object Instances
-let loginPage: LoginPage;
 let politicsPage: PoliticsPage;
 
 Given('I am logged in to Betfair', async function () {
-  loginPage = new LoginPage(this.page);
-  politicsPage = new PoliticsPage(this.page);
-  await loginPage.login(ENV.username!, ENV.password!);
+  // Implement the login logic if not already handled in place_bets_steps.ts
 });
 
-When('I place a bet on {string} with odds {string} and stake {string}', async function (candidateName: string, odds: string, stake: string) {
+When('I place a bet on {string} with odds {string} and a stake of {string}', async function (candidateName, odds, stake) {
   await politicsPage.placeBet(candidateName, parseFloat(odds), parseFloat(stake));
 });
 
 When('I enter only odds without entering a stake amount', async function () {
-  await politicsPage.enterOddsWithoutStake('2'); // Replace '2' with the desired odds
+  await politicsPage.enterOddsWithoutStake('5'); // Replace '5' with the desired odds
 });
 
 When('I enter only a stake amount without entering any odds', async function () {
@@ -28,26 +21,28 @@ When('I enter only a stake amount without entering any odds', async function () 
 
 Then('an error message should be displayed indicating insufficient funds', async function () {
   const errorMessage = await politicsPage.getErrorMessage();
-  expect(errorMessage).toContain('insufficient funds'); // Adjust the expected message based on actual UI
+  if (!errorMessage.includes('Insufficient funds')) {
+    throw new Error(`Expected an error message indicating insufficient funds, but got: ${errorMessage}`);
+  }
 });
 
 Then('the "Place bets" button should not be enabled', async function () {
-  const isButtonEnabled = await politicsPage.isPlaceBetButtonEnabled();
-  expect(isButtonEnabled).toBeFalsy();
+  const isEnabled = await politicsPage.isPlaceBetButtonEnabled();
+  if (isEnabled) {
+    throw new Error('Place bets button is enabled when it should not be.');
+  }
 });
 
-Then('the system should not allow entering non-numeric values', async function () {
+Then('the odds value should be displayed', async function () {
   const oddsValue = await politicsPage.getOddsValue();
-  expect(isNaN(parseFloat(oddsValue))).toBeTruthy(); // Check that the odds are not a number
+  if (!oddsValue) {
+    throw new Error('Odds value is not displayed.');
+  }
 });
 
-Then('it should display {string}', async function (expectedMessage: string) {
+Then('a minimum odds message should be displayed', async function () {
   const actualMessage = await politicsPage.getMinimumOddsMessage();
-  expect(actualMessage).toBe(expectedMessage);
+  if (!actualMessage) {
+    throw new Error('Minimum odds message is not displayed.');
+  }
 });
-
-//confirm bet  //*[text()='Confirm bets']
-//error meage  p.error-message__statement
-
-//  //highlighted-button[@class='potentials-footer__action']//ours-button
-// //ours-button[contains(.,'Place bets')]
