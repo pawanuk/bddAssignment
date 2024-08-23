@@ -1,6 +1,6 @@
 import { BasePage } from './BasePage';
 import { BetResult } from '../types/BetResult';
-
+import { Locator } from '@playwright/test'; 
 export class PoliticsPage extends BasePage {
   private locators = {
     politicsLink: this.page.locator('#subnav').getByRole('link', { name: 'Politics' }),
@@ -8,7 +8,10 @@ export class PoliticsPage extends BasePage {
     betslip: this.page.locator('betslip-editable-bet'),
     profitLocator: (candidateName: string) => this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`),
     logoutButton: this.page.getByRole('button', { name: 'Log Out' }),
-    myAccountButton: this.page.getByText('My Account pawanuk My Betfair')
+    myAccountButton: this.page.getByText('My Account pawanuk My Betfair'),
+    loc_placeBetButton: this.page.locator("//ours-button[contains(.,'Place bets')]"),
+    betslipOdds: (betslip: Locator) => betslip.locator('betslip-price-ladder').getByRole('textbox'),
+    betslipAmount: (betslip: Locator) => betslip.locator('betslip-size-input').getByRole('textbox'),
   };
 
   async navigateToPoliticsSection(): Promise<void> {
@@ -45,6 +48,12 @@ export class PoliticsPage extends BasePage {
     console.log("Politics page loaded.");
   }
 
+  async enterOddsWithoutStake(odds: string): Promise<void> {
+    console.log(`Entering odds: ${odds} without stake`);
+    const oddsInput = this.locators.betslipOdds(this.locators.betslip);
+    await oddsInput.fill(odds);
+  }
+
   async placeBet(candidateName: string, odds: number, amount: number): Promise<void> {
     console.log(`Adding bet for: ${candidateName} with odds ${odds} and amount ${amount}`);
     const candidateRow = this.locators.candidateRow(candidateName);
@@ -52,13 +61,13 @@ export class PoliticsPage extends BasePage {
     const backButton = candidateRow.locator('.bet-buttons.back-cell.last-back-cell button:has-text("£")');
     await backButton.click();
     await this.page.waitForSelector('betslip-editable-bet');
-    const betslip = this.page.locator('betslip-editable-bet').filter({ hasText: `${candidateName} £` });
-    const textBoxLocator = betslip.locator('betslip-price-ladder').getByRole('textbox');
-    const sizeInputLocator = betslip.locator('betslip-size-input').getByRole('textbox');
+    const textBoxLocator = this.locators.betslipOdds(this.locators.betslip);
+    const sizeInputLocator = this.locators.betslipAmount(this.locators.betslip);
     await textBoxLocator.fill(odds.toString());
     await sizeInputLocator.fill(amount.toString());
     console.log(`Bet added to betslip for ${candidateName}.`);
   }
+
   async placeBetsAndVerify(dataTable: any): Promise<void> {
     const candidates = dataTable.hashes();
     const expectedResults: BetResult[] = [];
@@ -81,6 +90,10 @@ export class PoliticsPage extends BasePage {
     await this.verifyBets(expectedResults);
   }
 
+  async isPlaceBetButtonEnabled(): Promise<boolean> {
+    return await this.locators.loc_placeBetButton.isEnabled(); 
+  }
+
   async verifyBets(expectedResults: BetResult[]): Promise<void> {
     for (let i = 0; i < expectedResults.length; i++) {
       const candidate = expectedResults[i];
@@ -94,6 +107,7 @@ export class PoliticsPage extends BasePage {
       }
     }
   }
+
   async getDisplayedProfit(candidateName: string, betIndex: number): Promise<number> {
     const profitLocator = this.locators.profitLocator(candidateName);
     const profitText = await profitLocator.textContent();

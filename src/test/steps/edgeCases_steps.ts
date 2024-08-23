@@ -45,3 +45,9 @@ Then('it should display {string}', async function (expectedMessage: string) {
   const actualMessage = await politicsPage.getMinimumOddsMessage();
   expect(actualMessage).toBe(expectedMessage);
 });
+
+//confirm bet  //*[text()='Confirm bets']
+//error meage  p.error-message__statement
+
+//  //highlighted-button[@class='potentials-footer__action']//ours-button
+// //ours-button[contains(.,'Place bets')]
