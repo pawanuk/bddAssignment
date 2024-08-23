@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 573075399
+              "duration": 542962100
             }
           },
           {
@@ -27,7 +27,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 23463352000
+              "duration": 22297476099
             }
           },
           {
@@ -40,7 +40,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 4043145599
+              "duration": 8079303600
             }
           },
           {
@@ -77,9 +77,8 @@
               "location": "src\\test\\steps\\place_bets_steps.ts:89"
             },
             "result": {
-              "status": "failed",
-              "duration": 31106679800,
-              "error_message": "Error: Verification failed for Kamala Harris: Expected profit: 495, Actual profit: 1425\n    at World.<anonymous> (C:\\Users\\pawan\\Documents\\Workspace\\bddAssignment\\src\\test\\steps\\place_bets_steps.ts:108:13)"
+              "status": "passed",
+              "duration": 1006247499
             }
           },
           {
@@ -88,11 +87,11 @@
             "line": 11,
             "name": "I log out from the application",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:113"
+              "location": "src\\test\\steps\\place_bets_steps.ts:93"
             },
             "result": {
-              "status": "skipped",
-              "duration": 0
+              "status": "passed",
+              "duration": 239368400
             }
           },
           {
@@ -100,7 +99,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1213500
+              "duration": 754499
             }
           }
         ],
