@@ -1,21 +1,9 @@
 import { BasePage } from './BasePage';
 import { BetResult } from '../types/BetResult';
-import { Locator, Page } from '@playwright/test'; 
-
-// Define an interface for pageElements
-interface PageElements {
-  politicsLinks: Locator[];
-  placeBetButton: Locator;
-  logoutButton: Locator;
-  myAccountButton: Locator;
-  betslip: (candidateName: string) => Locator;
-  betslipOdds: (betslip: Locator) => Locator;
-  betslipAmount: (betslip: Locator) => Locator;
-  profitLocator: (candidateName: string) => Locator;
-}
+import { Locator } from '@playwright/test';
 
 export class PoliticsPage extends BasePage {
-  private pageElements: PageElements = {
+  private pageElements = {
     politicsLinks: [
       this.page.locator('#subnav').getByRole('link', { name: 'Politics' }),
       this.page.locator('.subnav-link.mod-link').filter({ hasText: 'Politics' }),
@@ -29,7 +17,7 @@ export class PoliticsPage extends BasePage {
     betslip: (candidateName: string) => this.page.locator(`betslip-editable-bet`).filter({ hasText: `${candidateName} £` }),
     betslipOdds: (betslip: Locator) => betslip.locator('betslip-price-ladder').getByRole('textbox'),
     betslipAmount: (betslip: Locator) => betslip.locator('betslip-size-input').getByRole('textbox'),
-    profitLocator: (candidateName: string) => this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`),
+    profitLocator: (candidateName: string) => this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`)
   };
 
   async navigateToPoliticsSection(): Promise<void> {
@@ -62,39 +50,83 @@ export class PoliticsPage extends BasePage {
     console.log("Politics page loaded.");
   }
 
+  async placeBetsOnCandidates(candidates: string[]): Promise<BetResult[]> {
+    const betResults: BetResult[] = [];
+
+    for (const candidateName of candidates) {
+      const randomOdds = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
+      const randomAmount = Math.floor(Math.random() * (500 - 10 + 1)) + 10;
+      const expectedProfit = (randomOdds - 1) * randomAmount;
+
+      try {
+        await this.placeBet(candidateName, randomOdds, randomAmount);
+        betResults.push({ 
+          name: candidateName, 
+          odds: randomOdds, 
+          amount: randomAmount, 
+          profit: expectedProfit,
+        });
+      } catch (error) {
+        console.error(`Error placing bet for ${candidateName}: ${error}`);
+        betResults.push({ 
+          name: candidateName, 
+          odds: randomOdds, 
+          amount: randomAmount, 
+          profit: expectedProfit,
+        });
+      }
+    }
+
+    return betResults;
+  }
+
   async placeBet(candidateName: string, odds: number, amount: number): Promise<void> {
     console.log(`Adding bet for: ${candidateName} with odds ${odds} and amount ${amount}`);
+    
+    const candidateRow = this.page.locator(`//h3[text()="${candidateName}"]/ancestor::tr`);
+    await candidateRow.waitFor();
 
-    try {
-      const candidateRow = this.page.locator(`//h3[text()="${candidateName}"]/ancestor::tr`);
-      await candidateRow.waitFor();
+    const backButton = candidateRow.locator('.bet-buttons.back-cell.last-back-cell button:has-text("£")');
+    await backButton.click();
 
-      const backButton = candidateRow.locator('.bet-buttons.back-cell.last-back-cell button:has-text("£")');
-      await backButton.click();
+    const betslip = this.pageElements.betslip(candidateName);
+    await this.pageElements.betslipOdds(betslip).fill(odds.toString());
+    await this.pageElements.betslipAmount(betslip).fill(amount.toString());
 
-      await this.page.waitForSelector('betslip-editable-bet');
+    console.log(`Bet added to betslip for ${candidateName}.`);
+  }
 
-      const betslip = this.pageElements.betslip(candidateName);
-      await this.pageElements.betslipOdds(betslip).fill(odds.toString());
-      await this.pageElements.betslipAmount(betslip).fill(amount.toString());
+  async verifyBets(betResults: BetResult[]): Promise<boolean> {
+    let scenarioPassed = true;
 
-      console.log(`Bet added to betslip for ${candidateName}.`);
-    } catch (error) {
-      console.error(`Error placing bet for ${candidateName}: ${error}`);
+    for (const result of betResults) {
+      const actualProfit = await this.getDisplayedProfit(result.name);
+      console.log(`Verifying bet for ${result.name}`);
+
+      if (result.profit !== actualProfit) {
+        console.error(`Verification failed for ${result.name}: Expected profit: ${result.profit}, Actual profit: ${actualProfit}`);
+        scenarioPassed = false;
+      }
     }
+
+    return scenarioPassed;
   }
 
   async getDisplayedProfit(candidateName: string): Promise<number | undefined> {
     const profitLocator = this.pageElements.profitLocator(candidateName);
 
     try {
-      await profitLocator.waitFor({ state: 'visible', timeout: 5000 }); // Explicit wait
+      await profitLocator.waitFor({ state: 'visible', timeout: 5000 }); // Add a timeout 
       const profitText = await profitLocator.textContent();
+      if (!profitText) {
+        console.error(`Profit text for ${candidateName} was not found.`);
+        return undefined; // Handle null or empty profit text
+      }
       console.log(`Profit for ${candidateName}: ${profitText}`);
-      return parseFloat(profitText!.replace(/[^0-9.-]+/g, ""));
+      return parseFloat(profitText.replace(/[^0-9.-]+/g, ""));
     } catch (error) {
       console.error(`Could not find profit for ${candidateName}. Error: ${error}`);
-      return undefined; // Graceful error handling
+      return undefined; // Return undefined if profit is not found
     }
   }
 
@@ -103,7 +135,9 @@ export class PoliticsPage extends BasePage {
     await this.pageElements.myAccountButton.click();
 
     let logoutButton;
-    for (const locator of [this.pageElements.logoutButton, this.page.locator('button:has-text("Log Out")')]) {
+    const locators = [this.pageElements.logoutButton, this.page.locator('button:has-text("Log Out")')];
+
+    for (const locator of locators) {
       try {
         logoutButton = await locator.first();
         if (await logoutButton.isVisible()) {
@@ -112,7 +146,7 @@ export class PoliticsPage extends BasePage {
           break;
         }
       } catch (error) {
-        console.log('Locator failed, trying next one...');
+        console.log('Locator failed, trying next one');
         continue;
       }
     }

@@ -15,10 +15,11 @@ let politicsPage: PoliticsPage;
 
 Before(async function () {
   console.log("Preparing test environment...");
-  await cleanDirectories();  // Clean screenshots and videos directories
+
+  await cleanDirectories(); // Clean screenshots and videos directories
 
   browser = await chromium.launch({
-    headless: process.env.DOCKER_ENV === 'true',  
+    headless: process.env.DOCKER_ENV === 'true',
   });
 
   context = await browser.newContext({
@@ -47,27 +48,16 @@ When('I navigate to the Politics section', { timeout: 20 * 1000 }, async functio
 });
 
 When('I place a bet on the following candidates:', { timeout: 120 * 1000 }, async function (dataTable) {
-  const candidates = dataTable.hashes();
-  const expectedResults: BetResult[] = [];
+  type CandidateRow = { candidate: string }; // Define the type of each row
+  const candidates = dataTable.hashes().map((row: CandidateRow) => row.candidate);
+  const betResults: BetResult[] = await politicsPage.placeBetsOnCandidates(candidates);
 
-  for (const candidate of candidates) {
-    const randomOdds = getRandomOdds(); 
-    const randomAmount = getRandomAmount(); 
-    const expectedProfit = calculateExpectedProfit(randomOdds, randomAmount);
-
-    expectedResults.push({ name: candidate.candidate, odds: randomOdds, amount: randomAmount, profit: expectedProfit });
-
-    await politicsPage.placeBet(candidate.candidate, randomOdds, randomAmount);
-  }
-
-  for (let i = 0; i < expectedResults.length; i++) {
-    const candidate = expectedResults[i];
-    const actualProfit = await politicsPage.getDisplayedProfit(candidate.name);
-    console.log(`Verifying bet for ${candidate.name}`);
-
-    if (candidate.profit !== actualProfit) {
-      throw new Error(`Verification failed for ${candidate.name}: Expected profit: ${candidate.profit}, Actual profit: ${actualProfit}`);
-    }
+  // Verify all bets and determine overall scenario status
+  let scenarioPassed = await politicsPage.verifyBets(betResults);
+  
+  // If any bet failed or verification failed, mark the scenario as failed
+  if (!scenarioPassed) {
+    throw new Error('One or more bets failed or profit verification failed.');
   }
 });
 
@@ -121,16 +111,4 @@ async function closeResources() {
   }
 
   console.log("Teardown completed.");
-}
-
-function getRandomOdds(): number {
-  return Math.floor(Math.random() * (5 - 2 + 1)) + 2;
-}
-
-function getRandomAmount(): number {
-  return Math.floor(Math.random() * (500 - 10 + 1)) + 10;
-}
-
-function calculateExpectedProfit(odds: number, amount: number): number {
-  return (odds - 1) * amount;
 }

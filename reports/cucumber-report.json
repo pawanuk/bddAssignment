@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 511270199
+              "duration": 505168900
             }
           },
           {
@@ -23,11 +23,11 @@
             "line": 4,
             "name": "I am logged in to Betfair",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:41"
+              "location": "src\\test\\steps\\place_bets_steps.ts:42"
             },
             "result": {
               "status": "passed",
-              "duration": 4491185199
+              "duration": 7050315099
             }
           },
           {
@@ -36,11 +36,11 @@
             "line": 5,
             "name": "I navigate to the Politics section",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:45"
+              "location": "src\\test\\steps\\place_bets_steps.ts:46"
             },
             "result": {
               "status": "passed",
-              "duration": 8205585499
+              "duration": 3821349899
             }
           },
           {
@@ -74,11 +74,11 @@
             "line": 6,
             "name": "I place a bet on the following candidates:",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:49"
+              "location": "src\\test\\steps\\place_bets_steps.ts:50"
             },
             "result": {
               "status": "passed",
-              "duration": 1093330099
+              "duration": 1074659600
             }
           },
           {
@@ -87,11 +87,11 @@
             "line": 11,
             "name": "I log out from the application",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:74"
+              "location": "src\\test\\steps\\place_bets_steps.ts:64"
             },
             "result": {
               "status": "passed",
-              "duration": 250179300
+              "duration": 235406900
             }
           },
           {
@@ -99,7 +99,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1136466499
+              "duration": 309272600
             }
           }
         ],
