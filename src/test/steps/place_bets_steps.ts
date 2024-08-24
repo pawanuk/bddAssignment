@@ -5,13 +5,7 @@ import { LoginPage } from '../../pages/LoginPage';
 import { PoliticsPage } from '../../pages/PoliticsPage';
 import fs from 'fs-extra';
 import path from 'path';
-
-type BetResult = {
-  name: string;
-  odds: number;
-  amount: number;
-  profit: number;
-};
+import { BetResult } from '../../types/BetResult';
 
 let browser: Browser;
 let context: BrowserContext;
@@ -21,10 +15,10 @@ let politicsPage: PoliticsPage;
 
 Before(async function () {
   console.log("Preparing test environment...");
-  await cleanDirectories(); // Clean screenshots and videos directories
+  await cleanDirectories();  // Clean screenshots and videos directories
 
   browser = await chromium.launch({
-    headless: process.env.DOCKER_ENV === 'true',
+    headless: process.env.DOCKER_ENV === 'true',  
   });
 
   context = await browser.newContext({
@@ -57,21 +51,15 @@ When('I place a bet on the following candidates:', { timeout: 120 * 1000 }, asyn
   const expectedResults: BetResult[] = [];
 
   for (const candidate of candidates) {
-    const randomOdds = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
-    const randomAmount = Math.floor(Math.random() * (500 - 10 + 1)) + 10;
-    const expectedProfit = (randomOdds - 1) * randomAmount;
+    const randomOdds = getRandomOdds(); 
+    const randomAmount = getRandomAmount(); 
+    const expectedProfit = calculateExpectedProfit(randomOdds, randomAmount);
 
-    expectedResults.push({
-      name: candidate.candidate,
-      odds: randomOdds,
-      amount: randomAmount,
-      profit: expectedProfit,
-    });
+    expectedResults.push({ name: candidate.candidate, odds: randomOdds, amount: randomAmount, profit: expectedProfit });
 
-    await politicsPage.addBetToBetslip(candidate.candidate, randomOdds, randomAmount);
+    await politicsPage.placeBet(candidate.candidate, randomOdds, randomAmount);
   }
 
-  // Verification step
   for (let i = 0; i < expectedResults.length; i++) {
     const candidate = expectedResults[i];
     const actualProfit = await politicsPage.getDisplayedProfit(candidate.name);
@@ -133,4 +121,16 @@ async function closeResources() {
   }
 
   console.log("Teardown completed.");
+}
+
+function getRandomOdds(): number {
+  return Math.floor(Math.random() * (5 - 2 + 1)) + 2;
+}
+
+function getRandomAmount(): number {
+  return Math.floor(Math.random() * (500 - 10 + 1)) + 10;
+}
+
+function calculateExpectedProfit(odds: number, amount: number): number {
+  return (odds - 1) * amount;
 }
