@@ -32,8 +32,10 @@ export class LoginPage extends BasePage {
       console.log("Logged in and main page is visible.");
     } catch (error) {
       if (error instanceof Error) {
+        console.error(`Login failed: ${error.message}`);
         throw new Error(`Login failed: ${error.message}`);
       } else {
+        console.error('Login failed: An unknown error occurred');
         throw new Error('Login failed: An unknown error occurred');
       }
     }
@@ -48,7 +50,12 @@ export class LoginPage extends BasePage {
 
   protected async takeScreenshot(filename: string) {
     const screenshotPath = path.join('screenshots', filename);
-    await this.page.screenshot({ path: screenshotPath, fullPage: true });
-    console.log(`Screenshot taken: ${screenshotPath}`);
+    try {
+      await this.page.screenshot({ path: screenshotPath, fullPage: true });
+      console.log(`Screenshot taken: ${screenshotPath}`);
+    } catch (error) {
+      console.error(`Failed to take screenshot: ${error}`);
+      throw new Error(`Failed to take screenshot: ${error}`);
+    }
   }
 }
