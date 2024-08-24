@@ -1,3 +1,4 @@
+@placeBets
 Feature: Place bets on multiple candidates
 
   Scenario: Place bets on candidates with random data
@@ -8,4 +9,4 @@ Feature: Place bets on multiple candidates
       | Kamala Harris  |
       | Donald Trump   |
       | Nikki Haley    |
-    And I log out from the application
+    Then I log out from the application

@@ -6,7 +6,7 @@
         "description": "",
         "id": "place-bets-on-multiple-candidates;place-bets-on-candidates-with-random-data",
         "keyword": "Scenario",
-        "line": 3,
+        "line": 4,
         "name": "Place bets on candidates with random data",
         "steps": [
           {
@@ -14,33 +14,33 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 505168900
+              "duration": 478160899
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 4,
+            "line": 5,
             "name": "I am logged in to Betfair",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:42"
+              "location": "src\\test\\steps\\place_bets_steps.ts:41"
             },
             "result": {
               "status": "passed",
-              "duration": 7050315099
+              "duration": 4788320099
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 5,
+            "line": 6,
             "name": "I navigate to the Politics section",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:46"
+              "location": "src\\test\\steps\\place_bets_steps.ts:45"
             },
             "result": {
               "status": "passed",
-              "duration": 3821349899
+              "duration": 4362620799
             }
           },
           {
@@ -71,27 +71,27 @@
               }
             ],
             "keyword": "And ",
-            "line": 6,
+            "line": 7,
             "name": "I place a bet on the following candidates:",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:50"
+              "location": "src\\test\\steps\\place_bets_steps.ts:49"
             },
             "result": {
               "status": "passed",
-              "duration": 1074659600
+              "duration": 1031746899
             }
           },
           {
             "arguments": [],
-            "keyword": "And ",
-            "line": 11,
+            "keyword": "Then ",
+            "line": 12,
             "name": "I log out from the application",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:64"
+              "location": "src\\test\\steps\\place_bets_steps.ts:56"
             },
             "result": {
               "status": "passed",
-              "duration": 235406900
+              "duration": 273846000
             }
           },
           {
@@ -99,19 +99,29 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 309272600
+              "duration": 309315299
             }
           }
         ],
-        "tags": [],
+        "tags": [
+          {
+            "name": "@placeBets",
+            "line": 1
+          }
+        ],
         "type": "scenario"
       }
     ],
     "id": "place-bets-on-multiple-candidates",
-    "line": 1,
+    "line": 2,
     "keyword": "Feature",
     "name": "Place bets on multiple candidates",
-    "tags": [],
+    "tags": [
+      {
+        "name": "@placeBets",
+        "line": 1
+      }
+    ],
     "uri": "src\\test\\features\\place_bets.feature"
   }
 ]

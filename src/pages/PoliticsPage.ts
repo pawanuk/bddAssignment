@@ -17,7 +17,8 @@ export class PoliticsPage extends BasePage {
     betslip: (candidateName: string) => this.page.locator(`betslip-editable-bet`).filter({ hasText: `${candidateName} £` }),
     betslipOdds: (betslip: Locator) => betslip.locator('betslip-price-ladder').getByRole('textbox'),
     betslipAmount: (betslip: Locator) => betslip.locator('betslip-size-input').getByRole('textbox'),
-    profitLocator: (candidateName: string) => this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`)
+    profitLocator: (candidateName: string) => this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`),
+    errorMessage: this.page.locator('p.error-message__statement')  // Added error message locator
   };
 
   async navigateToPoliticsSection(): Promise<void> {
@@ -48,6 +49,47 @@ export class PoliticsPage extends BasePage {
     }
 
     console.log("Politics page loaded.");
+  }
+
+  async login(username: string, password: string): Promise<void> {
+    console.log("Logging in...");
+    // Assuming there's a login page or modal to handle login
+    await this.page.goto('https://www.betfair.com/login', { waitUntil: 'networkidle' });
+    await this.page.fill('input[name="username"]', username);
+    await this.page.fill('input[name="password"]', password);
+    await this.page.click('button[type="submit"]');
+    await this.page.waitForNavigation({ waitUntil: 'networkidle' });
+  }
+
+  async enterOddsWithoutStake(odds: string): Promise<void> {
+    console.log(`Entering odds: ${odds}`);
+    const betslip = this.page.locator('betslip-editable-bet');
+    await this.pageElements.betslipOdds(betslip).fill(odds);
+  }
+
+  async enterStakeWithoutOdds(stake: string): Promise<void> {
+    console.log(`Entering stake: ${stake}`);
+    const betslip = this.page.locator('betslip-editable-bet');
+    await this.pageElements.betslipAmount(betslip).fill(stake);
+  }
+
+  async getErrorMessage(): Promise<string> {
+    const errorMessage = await this.pageElements.errorMessage.textContent();
+    console.log(`Error message: ${errorMessage}`);
+    return errorMessage || '';  // Return an empty string if the error message is null
+  }
+
+  async isPlaceBetButtonEnabled(): Promise<boolean> {
+    const isEnabled = await this.pageElements.placeBetButton.isEnabled();
+    console.log(`Is place bet button enabled? ${isEnabled}`);
+    return isEnabled;
+  }
+
+  async getOddsValue(): Promise<string> {
+    const betslip = this.page.locator('betslip-editable-bet');
+    const oddsValue = await this.pageElements.betslipOdds(betslip).inputValue();
+    console.log(`Odds value: ${oddsValue}`);
+    return oddsValue;
   }
 
   async placeBetsOnCandidates(candidates: string[]): Promise<BetResult[]> {
@@ -116,17 +158,17 @@ export class PoliticsPage extends BasePage {
     const profitLocator = this.pageElements.profitLocator(candidateName);
 
     try {
-      await profitLocator.waitFor({ state: 'visible', timeout: 5000 }); // Add a timeout 
+      await profitLocator.waitFor({ state: 'visible', timeout: 5000 });
       const profitText = await profitLocator.textContent();
       if (!profitText) {
         console.error(`Profit text for ${candidateName} was not found.`);
-        return undefined; // Handle null or empty profit text
+        return undefined;
       }
       console.log(`Profit for ${candidateName}: ${profitText}`);
       return parseFloat(profitText.replace(/[^0-9.-]+/g, ""));
     } catch (error) {
       console.error(`Could not find profit for ${candidateName}. Error: ${error}`);
-      return undefined; // Return undefined if profit is not found
+      return undefined;
     }
   }
 

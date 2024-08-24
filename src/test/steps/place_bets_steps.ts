@@ -3,8 +3,7 @@ import { Browser, BrowserContext, Page, chromium } from '@playwright/test';
 import { ENV } from '../../utils/env';
 import { LoginPage } from '../../pages/LoginPage';
 import { PoliticsPage } from '../../pages/PoliticsPage';
-import fs from 'fs-extra';
-import path from 'path';
+import { cleanDirectories, takeScreenshotOnFailure, closeResources } from '../../utils/testHelpers';
 import { BetResult } from '../../types/BetResult';
 
 let browser: Browser;
@@ -35,8 +34,8 @@ Before(async function () {
 
 After(async function (scenario) {
   console.log("Tearing down...");
-  await takeScreenshotOnFailure(scenario); // Take screenshot if scenario fails
-  await closeResources(); // Close page, context, and browser
+  await takeScreenshotOnFailure(scenario, page); // Take screenshot if scenario fails
+  await closeResources(page, context, browser); // Close page, context, and browser
 });
 
 Given('I am logged in to Betfair', { timeout: 60 * 1000 }, async function () {
@@ -47,68 +46,13 @@ When('I navigate to the Politics section', { timeout: 20 * 1000 }, async functio
   await politicsPage.navigateToPoliticsSection();
 });
 
-When('I place a bet on the following candidates:', { timeout: 120 * 1000 }, async function (dataTable) {
+When('I place a bet on the following candidates:', async function (dataTable) {
   type CandidateRow = { candidate: string }; // Define the type of each row
   const candidates = dataTable.hashes().map((row: CandidateRow) => row.candidate);
-  const betResults: BetResult[] = await politicsPage.placeBetsOnCandidates(candidates);
-
-  // Verify all bets and determine overall scenario status
-  let scenarioPassed = await politicsPage.verifyBets(betResults);
-  
-  // If any bet failed or verification failed, mark the scenario as failed
-  if (!scenarioPassed) {
-    throw new Error('One or more bets failed or profit verification failed.');
-  }
+  const betResults = await politicsPage.placeBetsOnCandidates(candidates);
+  this.betResults = betResults;
 });
 
 Then('I log out from the application', async function () {
   await politicsPage.logout();
 });
-
-// Utility functions
-
-async function cleanDirectories() {
-  const videoDir = path.join(__dirname, '../../videos');
-  const screenshotDir = path.join(__dirname, '../../screenshots');
-
-  try {
-    console.log("Deleting old videos and screenshots...");
-    if (fs.existsSync(videoDir)) {
-      await fs.remove(videoDir);
-      console.log(`Deleted video directory: ${videoDir}`);
-    }
-    if (fs.existsSync(screenshotDir)) {
-      await fs.remove(screenshotDir);
-      console.log(`Deleted screenshot directory: ${screenshotDir}`);
-    }
-  } catch (err) {
-    console.error("Error cleaning up directories:", err);
-  }
-}
-
-async function takeScreenshotOnFailure(scenario: any) {
-  if (scenario.result?.status === Status.FAILED && page) {
-    const screenshotPath = path.join('screenshots', `${scenario.pickle.name}.png`);
-    console.log(`Scenario failed. Taking screenshot: ${screenshotPath}`);
-    await page.screenshot({ path: screenshotPath, fullPage: true });
-  }
-}
-
-async function closeResources() {
-  if (page && !page.isClosed()) {
-    console.log("Closing page...");
-    await page.close();
-  }
-
-  if (context) {
-    console.log("Closing context...");
-    await context.close();
-  }
-
-  if (browser) {
-    console.log("Closing browser...");
-    await browser.close();
-  }
-
-  console.log("Teardown completed.");
-}

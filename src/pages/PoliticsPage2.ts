@@ -1,68 +1,158 @@
-// import { Page } from 'playwright';
+// import { BasePage } from './BasePage';
+// import { BetResult } from '../types/BetResult';
+// import { Locator } from '@playwright/test';
 
-// export class PoliticsPage {
-//   constructor(private page: Page) {}
+// export class PoliticsPage extends BasePage {
+//   private pageElements = {
+//     politicsLinks: [
+//       this.page.locator('#subnav').getByRole('link', { name: 'Politics' }),
+//       this.page.locator('.subnav-link.mod-link').filter({ hasText: 'Politics' }),
+//       this.page.locator('a[data-event-type-name="politics"]'),
+//       this.page.locator('a[href="en/politics-betting-2378961"]'),
+//       this.page.locator('a:has-text("Politics")')
+//     ],
+//     placeBetButton: this.page.locator("//ours-button[contains(.,'Place bets')]"),
+//     logoutButton: this.page.getByRole('button', { name: 'Log Out' }),
+//     myAccountButton: this.page.getByText('My Account pawanuk My Betfair'),
+//     betslip: (candidateName: string) => this.page.locator(`betslip-editable-bet`).filter({ hasText: `${candidateName} £` }),
+//     betslipOdds: (betslip: Locator) => betslip.locator('betslip-price-ladder').getByRole('textbox'),
+//     betslipAmount: (betslip: Locator) => betslip.locator('betslip-size-input').getByRole('textbox'),
+//     profitLocator: (candidateName: string) => this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`)
+//   };
 
-//   async navigateToPoliticsSection() {
-//     const politicsLink = this.page.locator('text=Politics');
-//     await politicsLink.waitFor({ state: 'visible', timeout: 10000 });
-//     await politicsLink.click();
-//     await this.page.waitForLoadState('networkidle');
+//   async navigateToPoliticsSection(): Promise<void> {
+//     console.log("Attempting to click the Politics tab...");
+//     let elementFound = false;
+
+//     for (const locator of this.pageElements.politicsLinks) {
+//       try {
+//         const element = await locator.first();
+//         if (await element.isVisible()) {
+//           console.log('Politics link found and visible.');
+//           await element.click();
+//           elementFound = true;
+//           break;
+//         }
+//       } catch (error) {
+//         console.log('Locator failed, trying next one...');
+//         continue;
+//       }
+//     }
+
+//     if (!elementFound) {
+//       console.log('Politics link not found or not clickable, navigating directly to the URL...');
+//       await this.goto('https://www.betfair.com/exchange/plus/en/politics-betting-2378961', { waitUntil: 'networkidle' });
+//     } else {
+//       console.log("Waiting for the Politics page to load...");
+//       await this.page.waitForLoadState('networkidle', { timeout: 20000 });
+//     }
+
+//     console.log("Politics page loaded.");
 //   }
 
-//   async placeBet(candidateName: string, odds: number, amount: number) {
-//     // Find the candidate betslip row
-//     const betslipRowLocator = this.page.locator(`.betslip__editable-bet__container:has-text("${candidateName}")`);
+//   async placeBetsOnCandidates(candidates: string[]): Promise<BetResult[]> {
+//     const betResults: BetResult[] = [];
+
+//     for (const candidateName of candidates) {
+//       const randomOdds = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
+//       const randomAmount = Math.floor(Math.random() * (500 - 10 + 1)) + 10;
+//       const expectedProfit = (randomOdds - 1) * randomAmount;
+
+//       try {
+//         await this.placeBet(candidateName, randomOdds, randomAmount);
+//         betResults.push({ 
+//           name: candidateName, 
+//           odds: randomOdds, 
+//           amount: randomAmount, 
+//           profit: expectedProfit,
+//         });
+//       } catch (error) {
+//         console.error(`Error placing bet for ${candidateName}: ${error}`);
+//         betResults.push({ 
+//           name: candidateName, 
+//           odds: randomOdds, 
+//           amount: randomAmount, 
+//           profit: expectedProfit,
+//         });
+//       }
+//     }
+
+//     return betResults;
+//   }
+
+//   async placeBet(candidateName: string, odds: number, amount: number): Promise<void> {
+//     console.log(`Adding bet for: ${candidateName} with odds ${odds} and amount ${amount}`);
     
-//     // Wait for the row to appear
-//     await betslipRowLocator.waitFor({ state: 'visible', timeout: 10000 });
+//     const candidateRow = this.page.locator(`//h3[text()="${candidateName}"]/ancestor::tr`);
+//     await candidateRow.waitFor();
 
-//     // Enter the stake amount
-//     const stakeInputLocator = betslipRowLocator.locator('input[ng-model="$ctrl.size"]');
-//     await stakeInputLocator.fill(amount.toString());
+//     const backButton = candidateRow.locator('.bet-buttons.back-cell.last-back-cell button:has-text("£")');
+//     await backButton.click();
 
-//     // Enter the odds
-//     const oddsInputLocator = betslipRowLocator.locator('input[ng-model="$ctrl.price"]');
-//     await oddsInputLocator.fill(odds.toString());
+//     const betslip = this.pageElements.betslip(candidateName);
+//     await this.pageElements.betslipOdds(betslip).fill(odds.toString());
+//     await this.pageElements.betslipAmount(betslip).fill(amount.toString());
 
-//     // Submit the bet
-//     const placeBetButton = this.page.locator('button:has-text("Place bets")');
-//     await placeBetButton.click();
-
-//     // Wait for confirmation (or another state that indicates the bet was placed)
-//     await this.page.waitForSelector('.confirmation-message', { timeout: 10000 });
+//     console.log(`Bet added to betslip for ${candidateName}.`);
 //   }
 
-//   async getDisplayedProfit(candidateName: string) {
-//     // Use a more specific locator to target the betslip row containing the candidate's name
-//     const betslipRowLocator = this.page.locator(`.betslip__editable-bet__container:has-text("${candidateName}")`);
+//   async verifyBets(betResults: BetResult[]): Promise<boolean> {
+//     let scenarioPassed = true;
 
-//     // Wait for the betslip row to be visible
-//     await betslipRowLocator.waitFor({ state: 'visible', timeout: 10000 });
+//     for (const result of betResults) {
+//       const actualProfit = await this.getDisplayedProfit(result.name);
+//       console.log(`Verifying bet for ${result.name}`);
 
-//     // Find the profit element within the betslip row, ensuring it contains the '£' symbol
-//     const profitLocator = betslipRowLocator.locator('span.betslip__editable-bet__cell:has-text("£")');
+//       if (result.profit !== actualProfit) {
+//         console.error(`Verification failed for ${result.name}: Expected profit: ${result.profit}, Actual profit: ${actualProfit}`);
+//         scenarioPassed = false;
+//       }
+//     }
 
-//     // Wait for the profit element to be visible
-//     await profitLocator.waitFor({ state: 'visible', timeout: 10000 });
-
-//     // Get the text content of the profit element
-//     const profitText = await profitLocator.textContent();
-    
-//     // Parse the profit value, removing the '£' symbol
-//     const profitValue = parseFloat(profitText?.replace('£', '').replace(',', '') || '0');
-
-//     return profitValue;
+//     return scenarioPassed;
 //   }
 
-//   async logOut() {
-//     const logoutButton = this.page.locator('text=Log Out');
-//     await logoutButton.waitFor({ state: 'visible', timeout: 10000 });
-//     await logoutButton.click();
-//     await this.page.waitForLoadState('networkidle');
+//   async getDisplayedProfit(candidateName: string): Promise<number | undefined> {
+//     const profitLocator = this.pageElements.profitLocator(candidateName);
+
+//     try {
+//       await profitLocator.waitFor({ state: 'visible', timeout: 5000 }); // Add a timeout 
+//       const profitText = await profitLocator.textContent();
+//       if (!profitText) {
+//         console.error(`Profit text for ${candidateName} was not found.`);
+//         return undefined; // Handle null or empty profit text
+//       }
+//       console.log(`Profit for ${candidateName}: ${profitText}`);
+//       return parseFloat(profitText.replace(/[^0-9.-]+/g, ""));
+//     } catch (error) {
+//       console.error(`Could not find profit for ${candidateName}. Error: ${error}`);
+//       return undefined; // Return undefined if profit is not found
+//     }
 //   }
 
-//   async tearDown() {
-//     await this.page.close();
+//   async logout(): Promise<void> {
+//     console.log("Logging out...");
+//     await this.pageElements.myAccountButton.click();
+
+//     let logoutButton;
+//     const locators = [this.pageElements.logoutButton, this.page.locator('button:has-text("Log Out")')];
+
+//     for (const locator of locators) {
+//       try {
+//         logoutButton = await locator.first();
+//         if (await logoutButton.isVisible()) {
+//           console.log('Log Out button found and visible.');
+//           await logoutButton.click();
+//           break;
+//         }
+//       } catch (error) {
+//         console.log('Locator failed, trying next one');
+//         continue;
+//       }
+//     }
+
+//     if (!logoutButton) {
+//       throw new Error('Log Out button not found using any of the locators');
+//     }
 //   }
 // }
