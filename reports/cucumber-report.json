@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 466697700
+              "duration": 527405599
             }
           },
           {
@@ -27,7 +27,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 5042117099
+              "duration": 4918480500
             }
           },
           {
@@ -40,7 +40,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 7727490900
+              "duration": 7928677000
             }
           },
           {
@@ -78,7 +78,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1084871500
+              "duration": 1169727600
             }
           },
           {
@@ -87,11 +87,11 @@
             "line": 11,
             "name": "I log out from the application",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:82"
+              "location": "src\\test\\steps\\place_bets_steps.ts:86"
             },
             "result": {
               "status": "passed",
-              "duration": 243699099
+              "duration": 267468100
             }
           },
           {
@@ -99,7 +99,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1162562899
+              "duration": 831070399
             }
           }
         ],
