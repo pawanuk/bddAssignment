@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "clean": "node cleanup.js",
-    "test": "npm run clean && cucumber-js --format json:cucumber_report.json && node generateReport.js"
-  },
+ "scripts": {
+  "clean": "node cleanup.js",
+  "test": "npm run clean && npx cucumber-js --format json:reports/cucumber-report.json && npm run generate-report",
+  "generate-report": "node generateReport.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

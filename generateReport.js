@@ -2,8 +2,8 @@ const reporter = require('cucumber-html-reporter');
 
 const options = {
   theme: 'bootstrap',
-  jsonFile: 'cucumber_report.json',
-  output: 'cucumber_report.html',
+  jsonFile: 'reports/cucumber-report.json',  // Ensure this path matches where your JSON report is generated
+  output: 'reports/cucumber-html-report.html', // This is where the HTML report will be saved
   reportSuiteAsScenarios: true,
   launchReport: true,
   metadata: {
