@@ -46,7 +46,7 @@ When('I navigate to the Politics section', { timeout: 20 * 1000 }, async functio
   await politicsPage.navigateToPoliticsSection();
 });
 
-When('I place a bet on the following candidates:', async function (dataTable) {
+Then('I place a bet on the following candidates:', async function (dataTable) {
   type CandidateRow = { candidate: string }; // Define the type of each row
   const candidates = dataTable.hashes().map((row: CandidateRow) => row.candidate);
   const betResults = await politicsPage.placeBetsOnCandidates(candidates);
