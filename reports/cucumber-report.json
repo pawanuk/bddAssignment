@@ -15,11 +15,11 @@
             "line": 5,
             "name": "I am logged in to Betfair",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:20"
+              "location": "src\\test\\steps\\place_bets_steps.ts:14"
             },
             "result": {
               "status": "passed",
-              "duration": 41187722099
+              "duration": 40426818800
             }
           },
           {
@@ -28,11 +28,11 @@
             "line": 6,
             "name": "I navigate to the Politics section",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:45"
+              "location": "src\\test\\steps\\place_bets_steps.ts:39"
             },
             "result": {
               "status": "passed",
-              "duration": 437333299
+              "duration": 709920800
             }
           },
           {
@@ -66,11 +66,11 @@
             "line": 7,
             "name": "I place a bet on the following candidates:",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:49"
+              "location": "src\\test\\steps\\place_bets_steps.ts:43"
             },
             "result": {
               "status": "passed",
-              "duration": 5604593199
+              "duration": 7858619500
             }
           }
         ],
@@ -78,53 +78,6 @@
           {
             "name": "@placeBets",
             "line": 1
-          }
-        ],
-        "type": "scenario"
-      },
-      {
-        "description": "",
-        "id": "place-bets-on-multiple-candidates;entering-a-stake-that-exceeds-the-account-balance",
-        "keyword": "Scenario",
-        "line": 13,
-        "name": "Entering a stake that exceeds the account balance",
-        "steps": [
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 14,
-            "name": "I place a bet on \"Donald Trump\" with odds \"2\" and a stake of \"123456789\"",
-            "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:66"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 847907000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 15,
-            "name": "an error message should be displayed indicating insufficient funds",
-            "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:77"
-            },
-            "result": {
-              "status": "failed",
-              "duration": 5006814500,
-              "error_message": "Error: function timed out, ensure the promise resolves within 5000 milliseconds\n    at Timeout.<anonymous> (C:\\Users\\pawan\\Documents\\Workspace\\bddAssignment\\node_modules\\@cucumber\\cucumber\\src\\time.ts:52:14)\n    at listOnTimeout (node:internal/timers:573:17)\n    at processTimers (node:internal/timers:514:7)"
-            }
-          }
-        ],
-        "tags": [
-          {
-            "name": "@placeBets",
-            "line": 1
-          },
-          {
-            "name": "@exceeds-balance",
-            "line": 12
           }
         ],
         "type": "scenario"
@@ -133,34 +86,33 @@
         "description": "",
         "id": "place-bets-on-multiple-candidates;entering-only-odds",
         "keyword": "Scenario",
-        "line": 18,
+        "line": 15,
         "name": "Entering only odds",
         "steps": [
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 19,
+            "line": 16,
             "name": "I enter only odds without entering a stake amount",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:84"
+              "location": "src\\test\\steps\\place_bets_steps.ts:98"
             },
             "result": {
               "status": "passed",
-              "duration": 106198700
+              "duration": 709886100
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 20,
+            "line": 17,
             "name": "the \"Place bets\" button should not be enabled",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:91"
+              "location": "src\\test\\steps\\place_bets_steps.ts:108"
             },
             "result": {
-              "status": "failed",
-              "duration": 15707700,
-              "error_message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n    at Proxy.<anonymous> (C:\\Users\\pawan\\node_modules\\playwright\\lib\\matchers\\expect.js:194:37)\n    at World.<anonymous> (C:\\Users\\pawan\\Documents\\Workspace\\bddAssignment\\src\\test\\steps\\place_bets_steps.ts:95:21)"
+              "status": "passed",
+              "duration": 541880800
             }
           }
         ],
@@ -171,7 +123,7 @@
           },
           {
             "name": "@only-odds",
-            "line": 17
+            "line": 14
           }
         ],
         "type": "scenario"
@@ -180,47 +132,33 @@
         "description": "",
         "id": "place-bets-on-multiple-candidates;entering-only-a-stake-amount",
         "keyword": "Scenario",
-        "line": 23,
+        "line": 20,
         "name": "Entering only a stake amount",
         "steps": [
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 24,
+            "line": 21,
             "name": "I enter only a stake amount without entering any odds",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:98"
+              "location": "src\\test\\steps\\place_bets_steps.ts:117"
             },
             "result": {
               "status": "passed",
-              "duration": 177562600
+              "duration": 1409415500
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 25,
+            "line": 22,
             "name": "the \"Place bets\" button should not be enabled",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:91"
+              "location": "src\\test\\steps\\place_bets_steps.ts:108"
             },
             "result": {
-              "status": "failed",
-              "duration": 12223300,
-              "error_message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n    at Proxy.<anonymous> (C:\\Users\\pawan\\node_modules\\playwright\\lib\\matchers\\expect.js:194:37)\n    at World.<anonymous> (C:\\Users\\pawan\\Documents\\Workspace\\bddAssignment\\src\\test\\steps\\place_bets_steps.ts:95:21)"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 27,
-            "name": "I log out from the application",
-            "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:104"
-            },
-            "result": {
-              "status": "skipped",
-              "duration": 0
+              "status": "passed",
+              "duration": 524522099
             }
           }
         ],
@@ -231,7 +169,66 @@
           },
           {
             "name": "@only-stake",
-            "line": 22
+            "line": 19
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "place-bets-on-multiple-candidates;entering-a-stake-that-exceeds-the-account-balance",
+        "keyword": "Scenario",
+        "line": 25,
+        "name": "Entering a stake that exceeds the account balance",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 26,
+            "name": "I place a bet on \"Donald Trump\" with odds \"2\" and a stake of \"123456789\"",
+            "match": {
+              "location": "src\\test\\steps\\place_bets_steps.ts:58"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2048402899
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 27,
+            "name": "an error message should be displayed indicating insufficient funds",
+            "match": {
+              "location": "src\\test\\steps\\place_bets_steps.ts:73"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1543628199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "I log out from the application",
+            "match": {
+              "location": "src\\test\\steps\\place_bets_steps.ts:124"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2649861299
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@placeBets",
+            "line": 1
+          },
+          {
+            "name": "@exceeds-balance",
+            "line": 24
           }
         ],
         "type": "scenario"

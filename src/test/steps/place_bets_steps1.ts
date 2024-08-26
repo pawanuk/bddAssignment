@@ -1,6 +1,5 @@
-// import { Given, When, Then, Before, After, Status } from '@cucumber/cucumber';
-// import { Browser, BrowserContext, Page, chromium } from '@playwright/test';
-// import { ENV } from '../../utils/env';
+// import { Given, When, Then, After } from '@cucumber/cucumber';
+// import { Browser, BrowserContext, Page, chromium ,expect} from '@playwright/test';
 // import { LoginPage } from '../../pages/LoginPage';
 // import { PoliticsPage } from '../../pages/PoliticsPage';
 // import { cleanDirectories, takeScreenshotOnFailure, closeResources } from '../../utils/testHelpers';
@@ -12,102 +11,135 @@
 // let loginPage: LoginPage;
 // let politicsPage: PoliticsPage;
 
-// Before(async function () {
-//   console.log("Preparing test environment...");
+// // After(async function (scenario) {
+// //   console.log("Tearing down...");
+  
+// //   // Take a screenshot if the scenario failed
+// //   await takeScreenshotOnFailure(scenario, page); 
+  
+// //   // Close page, context, and browser
+// //   await closeResources(page, context, browser); 
+// // });
 
-//   await cleanDirectories(); // Clean screenshots and videos directories
+// Given('I am logged in to Betfair', { timeout: 60 * 1000 }, async function () {
+//   console.log("Setting up browser and context...");
 
 //   browser = await chromium.launch({
-//     headless: process.env.DOCKER_ENV === 'true',
+//     headless: false, // Set to false for better debugging visuals
 //   });
 
 //   context = await browser.newContext({
-//     storageState: 'auth.json',
 //     recordVideo: { dir: 'videos/', size: { width: 1280, height: 1024 } }
 //   });
 
 //   page = await context.newPage();
 //   loginPage = new LoginPage(page);
 //   politicsPage = new PoliticsPage(page);
-//   console.log("Browser launched and new page created.");
-// });
 
-// After(async function (scenario) {
-//   console.log("Tearing down...");
-//   await takeScreenshotOnFailure(scenario, page); // Take screenshot if scenario fails
-//   await closeResources(page, context, browser); // Close page, context, and browser
-// });
+//   console.log("Logging in to Betfair...");
 
-// Given('I am logged in to Betfair', { timeout: 60 * 1000 }, async function () {
-//   await loginPage.login(ENV.username!, ENV.password!);
+//   const username = 'pawanuk';
+//   const password = 'Pawankumar12';
+
+//   await loginPage.login(username, password);
+
+//   console.log("Login completed.");
 // });
 
 // When('I navigate to the Politics section', { timeout: 20 * 1000 }, async function () {
 //   await politicsPage.navigateToPoliticsSection();
 // });
 
-// Then('I place a bet on the following candidates:', async function (dataTable) {
+// Then('I place a bet on the following candidates:',{ timeout: 60000 }, async function (dataTable) {
 //   type CandidateRow = { candidate: string }; // Define the type of each row
 //   const candidates = dataTable.hashes().map((row: CandidateRow) => row.candidate);
+  
+//   // Place bets on all candidates
 //   const betResults = await politicsPage.placeBetsOnCandidates(candidates);
 //   this.betResults = betResults;
+  
+//   // Verify the profits after placing all bets
+//   const scenarioPassed = await politicsPage.verifyBets(betResults);
+//   if (!scenarioPassed) {
+//     throw new Error("Profit verification failed for one or more candidates.");
+//   }
+//   await politicsPage.cancelAllSelections();
+//   console.log("All selections canceled.");
+// });
+
+// When('I place a bet on {string} with odds {string} and a stake of {string}', async function (candidateName: string, odds: string, stake: string) {
+//   console.log(`Placing a bet on ${candidateName} with odds ${odds} and stake ${stake}`);
+
+//   try {
+//     // Step 1: Place the bet using the provided candidate name, odds, and stake
+//     await politicsPage.placeBet(candidateName, parseFloat(odds), parseFloat(stake));
+
+//     // Step 2: Click "Place bets" button
+//     await politicsPage.clickPlaceBetsButton();
+
+//     // Step 3: Click "Confirm bets" button
+//     await politicsPage.clickConfirmBetsButton();
+
+//     console.log(`Bet placed and confirmed for ${candidateName} with odds ${odds} and stake ${stake}.`);
+    
+//   } catch (error) {
+//     console.error(`Error placing bet: ${error}`);
+//     throw error;
+//   }
+// });
+
+
+// Then('an error message should be displayed indicating insufficient funds', async function () {
+//   const errorMessage = await politicsPage.getErrorMessage();
+//   console.log(`Received error message: ${errorMessage}`);
+
+//   // Check that the error message contains either "You do not have" or "Deposit now"
+//   const expectedSubstrings = ["You do not have", "Deposit now"];
+//   const containsExpectedMessage = expectedSubstrings.some(substring => errorMessage.includes(substring));
+
+//   if (!containsExpectedMessage) {
+//     throw new Error(`Expected error message to contain one of the following: ${expectedSubstrings.join(', ')}, but received: ${errorMessage}`);
+//   }
+
+//   expect(containsExpectedMessage).toBe(true);
+// });
+
+// When('I enter only odds without entering a stake amount', async function () {
+//   const odds = '2';  // You can parameterize this if needed
+//   const candidateName = 'Donald Trump';
+
+//   console.log(`Placing a back bet on ${candidateName} and entering only odds: ${odds}`);
+
+//   // Place the back bet on Donald Trump
+//   await politicsPage.placeBackBetOnCandidate(candidateName);
+
+//   // Enter only the odds without entering a stake amount
+//   await politicsPage.enterOddsWithoutStake(odds);
+// });
+
+
+// Then('the "Place bets" button should not be enabled', async function () {
+//   // Wait for a short period to ensure the page has updated the button's state
+//   await page.waitForTimeout(500);  // Wait for 500 milliseconds
+
+//   const isEnabled = await politicsPage.isPlaceBetButtonEnabled();
+//   console.log(`Checking if "Place bets" button is enabled: ${isEnabled}`);
+  
+//   expect(isEnabled).toBe(false);
+// });
+
+// When('I enter only a stake amount without entering any odds', async function () {
+//   const stake = '50';  // You can parameterize this if needed
+//   console.log(`Entering only stake amount: ${stake}`);
+  
+//   await politicsPage.enterStakeWithoutOdds(stake);
 // });
 
 // Then('I log out from the application', async function () {
 //   await politicsPage.logout();
-// });
 
-// // Edge case scenarios
-// Given('I am logged in to Betfair application', async function() {
-//   await loginPage.login(ENV.username!, ENV.password!);
-// });
-
-// When('I place a bet on "Donald Trump" with odds "2" and a stake of "123456789"', async function () {
-//   await politicsPage.placeFixedBetOnTrump(2, 123456789);
-// });
-
-// Then('an error message should be displayed indicating insufficient funds', async function() {
-//   const errorMessage = await politicsPage.getErrorMessage();
-//   if (errorMessage) {
-//     console.log(`Error message displayed: ${errorMessage}`);
-//   } else {
-//     throw new Error("Expected error message indicating insufficient funds, but none was found.");
-//   }
-// });
-
-// When('I enter only odds without entering a stake amount', async function () {
-//   await politicsPage.enterOddsWithoutStake("2"); // Example odds
-// });
-
-// When('I enter only a stake amount without entering any odds', async function () {
-//   await politicsPage.enterStakeWithoutOdds("100"); // Example stake
-// });
-
-// When('I place a bet on "Donald Trump" with odds "Ten" and stake "100"', async function () {
-//   await politicsPage.placeBet("Donald Trump", NaN, 100); // Passing NaN to simulate non-numeric odds
-// });
-
-// When('I place a bet on "Donald Trump" with odds "1" and a stake of "10"', async function () {
-//   await politicsPage.placeBet("Donald Trump", 1, 10);
-// });
-
-// Then('the "Place bets" button should not be enabled', async function () {
-//   const isButtonEnabled = await politicsPage.isPlaceBetButtonEnabled();
-//   if (isButtonEnabled) {
-//     throw new Error('Expected "Place bets" button to be disabled, but it is enabled.');
-//   }
-// });
-
-// Then('the system should not allow entering non-numeric values', async function () {
-//   const oddsValue = await politicsPage.getOddsValue();
-//   if (!isNaN(Number(oddsValue))) {
-//     throw new Error('Expected non-numeric odds input to be prevented, but it was allowed.');
-//   }
-// });
-
-// Then('it should display "The minimum odds are 1.01. Your odds have been updated accordingly."', async function () {
-//   const errorMessage = await politicsPage.getErrorMessage();
-//   if (!errorMessage.includes('The minimum odds are 1.01')) {
-//     throw new Error('Expected error message indicating minimum odds, but found none.');
-//   }
+//   // After logout, close the resources
+//   console.log("Tearing down...");
+//   await takeScreenshotOnFailure(this, page);
+//   await closeResources(page, context, browser);
 // });

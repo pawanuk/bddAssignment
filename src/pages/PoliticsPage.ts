@@ -11,16 +11,38 @@ export class PoliticsPage extends BasePage {
       this.page.locator('a[href="en/politics-betting-2378961"]'),
       this.page.locator('a:has-text("Politics")')
     ],
-    placeBetButton: this.page.locator("//ours-button[contains(.,'Place bets')]"),
+    placeBetButton: this.page.locator("//highlighted-button[contains(@class, 'potentials-footer__action')]//button[@type='submit' and not(@disabled)]"),
+    confirmBetButton: this.page.locator("//ours-button[contains(.,'Confirm bets')]"),
     logoutButton: this.page.getByRole('button', { name: 'Log Out' }),
     myAccountButton: this.page.getByText('My Account pawanuk My Betfair'),
     betslip: (candidateName: string) => this.page.locator(`betslip-editable-bet`).filter({ hasText: `${candidateName} £` }),
     betslipOdds: (betslip: Locator) => betslip.locator('betslip-price-ladder').getByRole('textbox'),
     betslipAmount: (betslip: Locator) => betslip.locator('betslip-size-input').getByRole('textbox'),
     profitLocator: (candidateName: string) => this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`),
-    errorMessage: this.page.locator('p.error-message__statement'),  // Added error message locator
+    errorMessage: this.page.locator('p.error-message__statement'),
     cancelAllSelectionsButton: this.page.locator('//button[normalize-space()="Cancel all selections"]'),
+    consentOverlay: this.page.locator('#onetrust-consent-sdk'), // Added locator for consent overlay
+    acceptCookiesButton: this.page.locator('button:has-text("Accept Cookies")') // Added locator for accept cookies button
   };
+
+  async handleConsentOverlay(): Promise<void> {
+    const consentOverlay = this.pageElements.consentOverlay;
+    const acceptCookiesButton = this.pageElements.acceptCookiesButton;
+
+    if (await consentOverlay.isVisible()) {
+      console.log("Consent overlay detected. Attempting to accept cookies...");
+      if (await acceptCookiesButton.isVisible()) {
+        await acceptCookiesButton.click();
+        console.log("Clicked 'Accept Cookies' button.");
+      } else {
+        console.warn("Accept Cookies button not found. Consent overlay might block interactions.");
+      }
+      await consentOverlay.waitFor({ state: 'hidden', timeout: 5000 });
+      console.log("Consent overlay dismissed.");
+    } else {
+      console.log("No consent overlay detected.");
+    }
+  }
 
   async navigateToPoliticsSection(): Promise<void> {
     console.log("Attempting to click the Politics tab...");
@@ -54,8 +76,8 @@ export class PoliticsPage extends BasePage {
 
   async login(username: string, password: string): Promise<void> {
     console.log("Logging in...");
-    // Assuming there's a login page or modal to handle login
     await this.page.goto('https://www.betfair.com/login', { waitUntil: 'networkidle' });
+    await this.handleConsentOverlay(); // Ensure the consent overlay is handled before proceeding
     await this.page.fill('input[name="username"]', username);
     await this.page.fill('input[name="password"]', password);
     await this.page.click('button[type="submit"]');
@@ -68,24 +90,53 @@ export class PoliticsPage extends BasePage {
     await this.pageElements.betslipOdds(betslip).fill(odds);
   }
 
+  async placeBackBetOnCandidate(candidateName: string): Promise<void> {
+    console.log(`Placing a back bet on ${candidateName}...`);
+  
+    const candidateRow = this.page.locator(`//h3[text()="${candidateName}"]/ancestor::tr`);
+    await candidateRow.waitFor({ state: 'visible', timeout: 60000 });
+  
+    const backButton = candidateRow.locator('.bet-buttons.back-cell.last-back-cell button:has-text("£")');
+    await backButton.click();
+  
+    console.log(`Back bet placed on ${candidateName}.`);
+  }
+  
   async enterStakeWithoutOdds(stake: string): Promise<void> {
     console.log(`Entering stake: ${stake}`);
+  
     const betslip = this.page.locator('betslip-editable-bet');
+  
+    console.log('Clearing the odds field...');
+    await this.pageElements.betslipOdds(betslip).fill('');
+  
+    await this.page.waitForTimeout(500);
+  
     await this.pageElements.betslipAmount(betslip).fill(stake);
+  
+    await this.page.waitForTimeout(500);
+  
+    const isEnabled = await this.isPlaceBetButtonEnabled();
+    console.log(`After entering stake, is "Place bets" button enabled? ${isEnabled}`);
   }
+
   async cancelAllSelections(): Promise<void> {
     console.log('Clicking "Cancel all selections" button...');
     await this.pageElements.cancelAllSelectionsButton.click();
   }
+
   async getErrorMessage(): Promise<string> {
     const errorMessage = await this.pageElements.errorMessage.textContent();
     console.log(`Error message: ${errorMessage}`);
-    return errorMessage || '';  // Return an empty string if the error message is null
+    return errorMessage || ''; 
   }
 
   async isPlaceBetButtonEnabled(): Promise<boolean> {
-    const isEnabled = await this.pageElements.placeBetButton.isEnabled();
+    console.log('Checking if "Place bets" button is enabled...');
+  
+    const isEnabled = await this.pageElements.placeBetButton.isVisible(); 
     console.log(`Is place bet button enabled? ${isEnabled}`);
+    
     return isEnabled;
   }
 
@@ -125,7 +176,6 @@ export class PoliticsPage extends BasePage {
   
     return betResults;
   }
-  
 
   async placeBet(candidateName: string, odds: number, amount: number): Promise<void> {
     console.log(`Adding bet for: ${candidateName} with odds ${odds} and amount ${amount}`);
@@ -143,6 +193,20 @@ export class PoliticsPage extends BasePage {
     console.log(`Bet added to betslip for ${candidateName}.`);
   }
 
+  async clickPlaceBetsButton(): Promise<void> {
+    console.log('Clicking "Place bets" button...');
+    await this.pageElements.placeBetButton.waitFor({ state: 'visible', timeout: 60000 });
+    await this.pageElements.placeBetButton.click();
+    console.log('Clicked "Place bets" button.');
+  }
+
+  async clickConfirmBetsButton(): Promise<void> {
+    console.log('Clicking "Confirm bets" button...');
+    await this.pageElements.confirmBetButton.waitFor({ state: 'visible', timeout: 60000 });
+    await this.pageElements.confirmBetButton.click();
+    console.log('Clicked "Confirm bets" button.');
+  }
+
   async verifyBets(betResults: BetResult[]): Promise<boolean> {
     let scenarioPassed = true;
   
@@ -150,7 +214,6 @@ export class PoliticsPage extends BasePage {
       const actualProfit = await this.getDisplayedProfit(result.name);
       console.log(`Verifying bet for ${result.name}`);
   
-      // Logging the details for each candidate
       console.log(`Candidate: "${result.name}", Odds: "${result.odds}", Stake: "${result.amount}", ExpectedProfit: "${result.profit}", ActualProfit: "${actualProfit}"`);
   
       if (result.profit !== actualProfit) {
@@ -161,15 +224,12 @@ export class PoliticsPage extends BasePage {
   
     return scenarioPassed;
   }
-  
-  
 
   async getDisplayedProfit(candidateName: string): Promise<number | undefined> {
     const profitLocator1 = this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`);
     const profitLocator2 = this.page.locator(`//span[text()="${candidateName}"]/ancestor::section[contains(@class, 'betslip__potential-bet') or contains(@class, 'betslip-editable-bet')]//span[contains(@ng-bind, '$ctrl.liabilityValue')]`);
   
     try {
-      // Try the first locator
       await profitLocator1.waitFor({ state: 'visible', timeout: 60000 });
       const profitText1 = await profitLocator1.textContent();
       if (profitText1) {
@@ -181,7 +241,6 @@ export class PoliticsPage extends BasePage {
     }
   
     try {
-      // Fallback to the second locator
       await profitLocator2.waitFor({ state: 'visible', timeout: 60000 });
       const profitText2 = await profitLocator2.textContent();
       if (profitText2) {
@@ -195,8 +254,6 @@ export class PoliticsPage extends BasePage {
   
     return undefined;
   }
-  
-  
 
   async logout(): Promise<void> {
     console.log("Logging out...");
@@ -222,5 +279,10 @@ export class PoliticsPage extends BasePage {
     if (!logoutButton) {
       throw new Error('Log Out button not found using any of the locators');
     }
+
+    // Ensure proper teardown after logout
+    console.log("Tearing down after logout...");
+    await this.page.close();
   }
 }
+

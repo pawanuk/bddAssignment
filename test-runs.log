@@ -1,0 +1,815 @@
+
+Run #1
+
+Run #1 completed successfully.
+
+> bddassignment@1.0.0 test
+> npm run clean && npx cucumber-js --format json:reports/cucumber-report.json && npm run generate-report
+
+
+> bddassignment@1.0.0 clean
+> node cleanup.js
+
+Successfully deleted contents of screenshots directory.
+Successfully deleted contents of videos directory.
+Cleanup process completed.
+Setting up browser and context...
+Logging in to Betfair...
+Navigating to Betfair login page...
+Navigated to https://www.betfair.com/
+Navigated to https://www.betfair.com/
+Waiting for page to fully load...
+Handling cookies...
+Checking for 'Allow all cookies' button...
+Element getByRole('button', { name: 'Allow all cookies' }) is visible
+Clicking 'Allow all cookies' button...
+Clicked on element getByRole('button', { name: 'Allow all cookies' })
+Taking screenshot before filling in login details...
+Screenshot taken: screenshots\before-login.png
+Filling in login details...
+Filling username...
+Filling password...
+Taking screenshot before clicking 'Log In' button...
+Screenshot taken: screenshots\before-click-login.png
+Clicking 'Log In' button...
+Clicked on element getByRole('button', { name: 'Log In' })
+Waiting for the main page to appear...
+Taking screenshot after login...
+Screenshot taken: screenshots\after-login.png
+Login process completed.
+Login completed.
+.Attempting to click the Politics tab...
+Politics link found and visible.
+Waiting for the Politics page to load...
+Politics page loaded.
+.Adding bet for: Kamala Harris with odds 5 and amount 407
+Bet added to betslip for Kamala Harris.
+Adding bet for: Donald Trump with odds 2 and amount 476
+Bet added to betslip for Donald Trump.
+Adding bet for: Nikki Haley with odds 5 and amount 317
+Bet added to betslip for Nikki Haley.
+Profit for Kamala Harris found using first locator: £1,628.00
+Verifying bet for Kamala Harris
+Candidate: "Kamala Harris", Odds: "5", Stake: "407", ExpectedProfit: "1628", ActualProfit: "1628"
+Profit for Donald Trump found using first locator: £476.00
+Verifying bet for Donald Trump
+Candidate: "Donald Trump", Odds: "2", Stake: "476", ExpectedProfit: "476", ActualProfit: "476"
+Profit for Nikki Haley found using first locator: £1,268.00
+Verifying bet for Nikki Haley
+Candidate: "Nikki Haley", Odds: "5", Stake: "317", ExpectedProfit: "1268", ActualProfit: "1268"
+Clicking "Cancel all selections" button...
+All selections canceled.
+.Placing a back bet on Donald Trump and entering only odds: 2
+Placing a back bet on Donald Trump...
+Back bet placed on Donald Trump.
+Entering odds: 2
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Entering only stake amount: 50
+Entering stake: 50
+Clearing the odds field...
+Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+After entering stake, is "Place bets" button enabled? false
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Placing a bet on Donald Trump with odds 2 and stake 123456789
+Adding bet for: Donald Trump with odds 2 and amount 123456789
+Bet added to betslip for Donald Trump.
+Clicking "Place bets" button...
+Clicked "Place bets" button.
+Clicking "Confirm bets" button...
+Clicked "Confirm bets" button.
+Bet placed and confirmed for Donald Trump with odds 2 and stake 123456789.
+.Error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Received error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Placing a back bet on Kamala Harris...
+Placing a back bet on Kamala Harris...
+Back bet placed on Kamala Harris.
+Clicking "Cancel all selections" button...
+Clicking "Cancel all selections" button...
+.Logging out...
+Log Out button found and visible.
+Tearing down after logout...
+Tearing down...
+Closing context...
+Closing browser...
+Teardown completed.
+.
+
+4 scenarios (4 passed)
+10 steps (10 passed)
+0m56.058s (executing steps: 0m56.030s)
+
+> bddassignment@1.0.0 generate-report
+> node generateReport.js
+
+
+🚀 Cucumber HTML report reports/cucumber-html-report.html generated successfully 👍
+
+
+Run #2
+
+Error during run #2: Error: Command failed: npm run test
+
+Run #2 completed successfully.
+
+> bddassignment@1.0.0 test
+> npm run clean && npx cucumber-js --format json:reports/cucumber-report.json && npm run generate-report
+
+
+> bddassignment@1.0.0 clean
+> node cleanup.js
+
+Successfully deleted contents of screenshots directory.
+Successfully deleted contents of videos directory.
+Cleanup process completed.
+Setting up browser and context...
+Logging in to Betfair...
+Navigating to Betfair login page...
+Navigated to https://www.betfair.com/
+Navigated to https://www.betfair.com/
+Waiting for page to fully load...
+Handling cookies...
+Checking for 'Allow all cookies' button...
+Element getByRole('button', { name: 'Allow all cookies' }) is visible
+Clicking 'Allow all cookies' button...
+Clicked on element getByRole('button', { name: 'Allow all cookies' })
+Taking screenshot before filling in login details...
+Screenshot taken: screenshots\before-login.png
+Filling in login details...
+Filling username...
+Filling password...
+Taking screenshot before clicking 'Log In' button...
+Screenshot taken: screenshots\before-click-login.png
+Clicking 'Log In' button...
+Clicked on element getByRole('button', { name: 'Log In' })
+Waiting for the main page to appear...
+Taking screenshot after login...
+Screenshot taken: screenshots\after-login.png
+Login process completed.
+Login completed.
+.Attempting to click the Politics tab...
+Politics link found and visible.
+Waiting for the Politics page to load...
+Politics page loaded.
+.Adding bet for: Kamala Harris with odds 3 and amount 127
+Bet added to betslip for Kamala Harris.
+Adding bet for: Donald Trump with odds 2 and amount 151
+Bet added to betslip for Donald Trump.
+Adding bet for: Nikki Haley with odds 3 and amount 254
+Bet added to betslip for Nikki Haley.
+Profit for Kamala Harris found using first locator: £254.00
+Verifying bet for Kamala Harris
+Candidate: "Kamala Harris", Odds: "3", Stake: "127", ExpectedProfit: "254", ActualProfit: "254"
+Profit for Donald Trump found using first locator: £151.00
+Verifying bet for Donald Trump
+Candidate: "Donald Trump", Odds: "2", Stake: "151", ExpectedProfit: "151", ActualProfit: "151"
+Profit for Nikki Haley found using first locator: £508.00
+Verifying bet for Nikki Haley
+Candidate: "Nikki Haley", Odds: "3", Stake: "254", ExpectedProfit: "508", ActualProfit: "508"
+Clicking "Cancel all selections" button...
+All selections canceled.
+.Placing a back bet on Donald Trump and entering only odds: 2
+Placing a back bet on Donald Trump...
+Back bet placed on Donald Trump.
+Entering odds: 2
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Entering only stake amount: 50
+Entering stake: 50
+Clearing the odds field...
+Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+After entering stake, is "Place bets" button enabled? false
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Placing a bet on Donald Trump with odds 2 and stake 123456789
+Adding bet for: Donald Trump with odds 2 and amount 123456789
+Bet added to betslip for Donald Trump.
+Clicking "Place bets" button...
+Clicked "Place bets" button.
+Clicking "Confirm bets" button...
+Clicked "Confirm bets" button.
+Bet placed and confirmed for Donald Trump with odds 2 and stake 123456789.
+.Error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Received error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Placing a back bet on Kamala Harris...
+Placing a back bet on Kamala Harris...
+Back bet placed on Kamala Harris.
+Clicking "Cancel all selections" button...
+Clicking "Cancel all selections" button...
+.Logging out...
+Log Out button found and visible.
+Tearing down after logout...
+Tearing down...
+Closing context...
+F
+
+Failures:
+
+1) Scenario: Entering a stake that exceeds the account balance # src\test\features\place_bets.feature:25
+   √ When I place a bet on "Donald Trump" with odds "2" and a stake of "123456789" # src\test\steps\place_bets_steps.ts:58
+   √ Then an error message should be displayed indicating insufficient funds # src\test\steps\place_bets_steps.ts:73
+   × Then I log out from the application # src\test\steps\place_bets_steps.ts:124
+       Error: function timed out, ensure the promise resolves within 5000 milliseconds
+           at Timeout.<anonymous> (C:\Users\pawan\Documents\Workspace\bddAssignment\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+           at listOnTimeout (node:internal/timers:573:17)
+           at processTimers (node:internal/timers:514:7)
+
+4 scenarios (1 failed, 3 passed)
+10 steps (1 failed, 9 passed)
+1m12.523s (executing steps: 1m12.463s)
+Closing browser...
+Teardown completed.
+
+
+Run #3
+
+Error during run #3: Error: Command failed: npm run test
+
+Run #3 completed successfully.
+
+> bddassignment@1.0.0 test
+> npm run clean && npx cucumber-js --format json:reports/cucumber-report.json && npm run generate-report
+
+
+> bddassignment@1.0.0 clean
+> node cleanup.js
+
+Successfully deleted contents of screenshots directory.
+Successfully deleted contents of videos directory.
+Cleanup process completed.
+Setting up browser and context...
+Logging in to Betfair...
+Navigating to Betfair login page...
+Navigated to https://www.betfair.com/
+Navigated to https://www.betfair.com/
+Waiting for page to fully load...
+Handling cookies...
+Checking for 'Allow all cookies' button...
+Element getByRole('button', { name: 'Allow all cookies' }) is visible
+Clicking 'Allow all cookies' button...
+Clicked on element getByRole('button', { name: 'Allow all cookies' })
+Taking screenshot before filling in login details...
+Screenshot taken: screenshots\before-login.png
+Filling in login details...
+Filling username...
+Filling password...
+Taking screenshot before clicking 'Log In' button...
+Screenshot taken: screenshots\before-click-login.png
+Clicking 'Log In' button...
+Clicked on element getByRole('button', { name: 'Log In' })
+Waiting for the main page to appear...
+Taking screenshot after login...
+Screenshot taken: screenshots\after-login.png
+Login process completed.
+Login completed.
+.Attempting to click the Politics tab...
+Politics link found and visible.
+Waiting for the Politics page to load...
+Politics page loaded.
+.Adding bet for: Kamala Harris with odds 4 and amount 128
+Bet added to betslip for Kamala Harris.
+Adding bet for: Donald Trump with odds 5 and amount 387
+Bet added to betslip for Donald Trump.
+Adding bet for: Nikki Haley with odds 3 and amount 354
+Bet added to betslip for Nikki Haley.
+Profit for Kamala Harris found using first locator: £384.00
+Verifying bet for Kamala Harris
+Candidate: "Kamala Harris", Odds: "4", Stake: "128", ExpectedProfit: "384", ActualProfit: "384"
+Profit for Donald Trump found using first locator: £1,548.00
+Verifying bet for Donald Trump
+Candidate: "Donald Trump", Odds: "5", Stake: "387", ExpectedProfit: "1548", ActualProfit: "1548"
+Profit for Nikki Haley found using first locator: £708.00
+Verifying bet for Nikki Haley
+Candidate: "Nikki Haley", Odds: "3", Stake: "354", ExpectedProfit: "708", ActualProfit: "708"
+Clicking "Cancel all selections" button...
+All selections canceled.
+.Placing a back bet on Donald Trump and entering only odds: 2
+Placing a back bet on Donald Trump...
+Back bet placed on Donald Trump.
+Entering odds: 2
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Entering only stake amount: 50
+Entering stake: 50
+Clearing the odds field...
+Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+After entering stake, is "Place bets" button enabled? false
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Placing a bet on Donald Trump with odds 2 and stake 123456789
+Adding bet for: Donald Trump with odds 2 and amount 123456789
+Bet added to betslip for Donald Trump.
+Clicking "Place bets" button...
+Clicked "Place bets" button.
+Clicking "Confirm bets" button...
+Clicked "Confirm bets" button.
+Bet placed and confirmed for Donald Trump with odds 2 and stake 123456789.
+.Error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Received error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Placing a back bet on Kamala Harris...
+Placing a back bet on Kamala Harris...
+Back bet placed on Kamala Harris.
+Clicking "Cancel all selections" button...
+Clicking "Cancel all selections" button...
+.Logging out...
+Log Out button found and visible.
+Tearing down after logout...
+Tearing down...
+Closing context...
+F
+
+Failures:
+
+1) Scenario: Entering a stake that exceeds the account balance # src\test\features\place_bets.feature:25
+   √ When I place a bet on "Donald Trump" with odds "2" and a stake of "123456789" # src\test\steps\place_bets_steps.ts:58
+   √ Then an error message should be displayed indicating insufficient funds # src\test\steps\place_bets_steps.ts:73
+   × Then I log out from the application # src\test\steps\place_bets_steps.ts:124
+       Error: function timed out, ensure the promise resolves within 5000 milliseconds
+           at Timeout.<anonymous> (C:\Users\pawan\Documents\Workspace\bddAssignment\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+           at listOnTimeout (node:internal/timers:573:17)
+           at processTimers (node:internal/timers:514:7)
+
+4 scenarios (1 failed, 3 passed)
+10 steps (1 failed, 9 passed)
+1m05.755s (executing steps: 1m05.721s)
+Closing browser...
+Teardown completed.
+
+
+Run #4
+
+Error during run #4: Error: Command failed: npm run test
+
+Run #4 completed successfully.
+
+> bddassignment@1.0.0 test
+> npm run clean && npx cucumber-js --format json:reports/cucumber-report.json && npm run generate-report
+
+
+> bddassignment@1.0.0 clean
+> node cleanup.js
+
+Successfully deleted contents of screenshots directory.
+Successfully deleted contents of videos directory.
+Cleanup process completed.
+Setting up browser and context...
+Logging in to Betfair...
+Navigating to Betfair login page...
+Navigated to https://www.betfair.com/
+Navigated to https://www.betfair.com/
+Waiting for page to fully load...
+Handling cookies...
+Checking for 'Allow all cookies' button...
+Element getByRole('button', { name: 'Allow all cookies' }) is visible
+Clicking 'Allow all cookies' button...
+Clicked on element getByRole('button', { name: 'Allow all cookies' })
+Taking screenshot before filling in login details...
+Screenshot taken: screenshots\before-login.png
+Filling in login details...
+Filling username...
+Filling password...
+Taking screenshot before clicking 'Log In' button...
+Screenshot taken: screenshots\before-click-login.png
+Clicking 'Log In' button...
+Clicked on element getByRole('button', { name: 'Log In' })
+Waiting for the main page to appear...
+Taking screenshot after login...
+Screenshot taken: screenshots\after-login.png
+Login process completed.
+Login completed.
+.Attempting to click the Politics tab...
+Politics link found and visible.
+Waiting for the Politics page to load...
+Politics page loaded.
+.Adding bet for: Kamala Harris with odds 5 and amount 353
+Bet added to betslip for Kamala Harris.
+Adding bet for: Donald Trump with odds 4 and amount 387
+Bet added to betslip for Donald Trump.
+Adding bet for: Nikki Haley with odds 3 and amount 473
+Bet added to betslip for Nikki Haley.
+Profit for Kamala Harris found using first locator: £1,412.00
+Verifying bet for Kamala Harris
+Candidate: "Kamala Harris", Odds: "5", Stake: "353", ExpectedProfit: "1412", ActualProfit: "1412"
+Profit for Donald Trump found using first locator: £1,161.00
+Verifying bet for Donald Trump
+Candidate: "Donald Trump", Odds: "4", Stake: "387", ExpectedProfit: "1161", ActualProfit: "1161"
+Profit for Nikki Haley found using first locator: £946.00
+Verifying bet for Nikki Haley
+Candidate: "Nikki Haley", Odds: "3", Stake: "473", ExpectedProfit: "946", ActualProfit: "946"
+Clicking "Cancel all selections" button...
+All selections canceled.
+.Placing a back bet on Donald Trump and entering only odds: 2
+Placing a back bet on Donald Trump...
+Back bet placed on Donald Trump.
+Entering odds: 2
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Entering only stake amount: 50
+Entering stake: 50
+Clearing the odds field...
+Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+After entering stake, is "Place bets" button enabled? false
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Placing a bet on Donald Trump with odds 2 and stake 123456789
+Adding bet for: Donald Trump with odds 2 and amount 123456789
+Bet added to betslip for Donald Trump.
+Clicking "Place bets" button...
+Clicked "Place bets" button.
+Clicking "Confirm bets" button...
+Clicked "Confirm bets" button.
+Bet placed and confirmed for Donald Trump with odds 2 and stake 123456789.
+.Error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Received error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Placing a back bet on Kamala Harris...
+Placing a back bet on Kamala Harris...
+Back bet placed on Kamala Harris.
+Clicking "Cancel all selections" button...
+Clicking "Cancel all selections" button...
+.Logging out...
+Log Out button found and visible.
+Tearing down after logout...
+Tearing down...
+Closing context...
+F
+
+Failures:
+
+1) Scenario: Entering a stake that exceeds the account balance # src\test\features\place_bets.feature:25
+   √ When I place a bet on "Donald Trump" with odds "2" and a stake of "123456789" # src\test\steps\place_bets_steps.ts:58
+   √ Then an error message should be displayed indicating insufficient funds # src\test\steps\place_bets_steps.ts:73
+   × Then I log out from the application # src\test\steps\place_bets_steps.ts:124
+       Error: function timed out, ensure the promise resolves within 5000 milliseconds
+           at Timeout.<anonymous> (C:\Users\pawan\Documents\Workspace\bddAssignment\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+           at listOnTimeout (node:internal/timers:573:17)
+           at processTimers (node:internal/timers:514:7)
+
+4 scenarios (1 failed, 3 passed)
+10 steps (1 failed, 9 passed)
+0m53.317s (executing steps: 0m53.263s)
+Closing browser...
+Teardown completed.
+
+
+Run #5
+
+Error during run #5: Error: Command failed: npm run test
+
+Run #5 completed successfully.
+
+> bddassignment@1.0.0 test
+> npm run clean && npx cucumber-js --format json:reports/cucumber-report.json && npm run generate-report
+
+
+> bddassignment@1.0.0 clean
+> node cleanup.js
+
+Successfully deleted contents of screenshots directory.
+Successfully deleted contents of videos directory.
+Cleanup process completed.
+Setting up browser and context...
+Logging in to Betfair...
+Navigating to Betfair login page...
+Navigated to https://www.betfair.com/
+Navigated to https://www.betfair.com/
+Waiting for page to fully load...
+Handling cookies...
+Checking for 'Allow all cookies' button...
+Element getByRole('button', { name: 'Allow all cookies' }) is visible
+Clicking 'Allow all cookies' button...
+Clicked on element getByRole('button', { name: 'Allow all cookies' })
+Taking screenshot before filling in login details...
+Screenshot taken: screenshots\before-login.png
+Filling in login details...
+Filling username...
+Filling password...
+Taking screenshot before clicking 'Log In' button...
+Screenshot taken: screenshots\before-click-login.png
+Clicking 'Log In' button...
+Clicked on element getByRole('button', { name: 'Log In' })
+Waiting for the main page to appear...
+Taking screenshot after login...
+Screenshot taken: screenshots\after-login.png
+Login process completed.
+Login completed.
+.Attempting to click the Politics tab...
+Politics link found and visible.
+Waiting for the Politics page to load...
+Politics page loaded.
+.Adding bet for: Kamala Harris with odds 3 and amount 401
+Bet added to betslip for Kamala Harris.
+Adding bet for: Donald Trump with odds 4 and amount 131
+Bet added to betslip for Donald Trump.
+Adding bet for: Nikki Haley with odds 4 and amount 386
+Bet added to betslip for Nikki Haley.
+Profit for Kamala Harris found using first locator: £802.00
+Verifying bet for Kamala Harris
+Candidate: "Kamala Harris", Odds: "3", Stake: "401", ExpectedProfit: "802", ActualProfit: "802"
+Profit for Donald Trump found using first locator: £393.00
+Verifying bet for Donald Trump
+Candidate: "Donald Trump", Odds: "4", Stake: "131", ExpectedProfit: "393", ActualProfit: "393"
+Profit for Nikki Haley found using first locator: £1,158.00
+Verifying bet for Nikki Haley
+Candidate: "Nikki Haley", Odds: "4", Stake: "386", ExpectedProfit: "1158", ActualProfit: "1158"
+Clicking "Cancel all selections" button...
+All selections canceled.
+.Placing a back bet on Donald Trump and entering only odds: 2
+Placing a back bet on Donald Trump...
+Back bet placed on Donald Trump.
+Entering odds: 2
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Entering only stake amount: 50
+Entering stake: 50
+Clearing the odds field...
+Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+After entering stake, is "Place bets" button enabled? false
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Placing a bet on Donald Trump with odds 2 and stake 123456789
+Adding bet for: Donald Trump with odds 2 and amount 123456789
+Bet added to betslip for Donald Trump.
+Clicking "Place bets" button...
+Clicked "Place bets" button.
+Clicking "Confirm bets" button...
+Clicked "Confirm bets" button.
+Bet placed and confirmed for Donald Trump with odds 2 and stake 123456789.
+.Error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Received error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Placing a back bet on Kamala Harris...
+Placing a back bet on Kamala Harris...
+Back bet placed on Kamala Harris.
+Clicking "Cancel all selections" button...
+Clicking "Cancel all selections" button...
+.Logging out...
+Log Out button found and visible.
+Tearing down after logout...
+Tearing down...
+Closing context...
+F
+
+Failures:
+
+1) Scenario: Entering a stake that exceeds the account balance # src\test\features\place_bets.feature:25
+   √ When I place a bet on "Donald Trump" with odds "2" and a stake of "123456789" # src\test\steps\place_bets_steps.ts:58
+   √ Then an error message should be displayed indicating insufficient funds # src\test\steps\place_bets_steps.ts:73
+   × Then I log out from the application # src\test\steps\place_bets_steps.ts:124
+       Error: function timed out, ensure the promise resolves within 5000 milliseconds
+           at Timeout.<anonymous> (C:\Users\pawan\Documents\Workspace\bddAssignment\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+           at listOnTimeout (node:internal/timers:573:17)
+           at processTimers (node:internal/timers:514:7)
+
+4 scenarios (1 failed, 3 passed)
+10 steps (1 failed, 9 passed)
+0m55.060s (executing steps: 0m55.008s)
+Closing browser...
+Teardown completed.
+
+
+Run #6
+
+Error during run #6: Error: Command failed: npm run test
+
+Run #6 completed successfully.
+
+> bddassignment@1.0.0 test
+> npm run clean && npx cucumber-js --format json:reports/cucumber-report.json && npm run generate-report
+
+
+> bddassignment@1.0.0 clean
+> node cleanup.js
+
+Successfully deleted contents of screenshots directory.
+Successfully deleted contents of videos directory.
+Cleanup process completed.
+Setting up browser and context...
+Logging in to Betfair...
+Navigating to Betfair login page...
+Navigated to https://www.betfair.com/
+Navigated to https://www.betfair.com/
+Waiting for page to fully load...
+Handling cookies...
+Checking for 'Allow all cookies' button...
+Element getByRole('button', { name: 'Allow all cookies' }) is visible
+Clicking 'Allow all cookies' button...
+Clicked on element getByRole('button', { name: 'Allow all cookies' })
+Taking screenshot before filling in login details...
+Screenshot taken: screenshots\before-login.png
+Filling in login details...
+Filling username...
+Filling password...
+Taking screenshot before clicking 'Log In' button...
+Screenshot taken: screenshots\before-click-login.png
+Clicking 'Log In' button...
+Clicked on element getByRole('button', { name: 'Log In' })
+Waiting for the main page to appear...
+Taking screenshot after login...
+Screenshot taken: screenshots\after-login.png
+Login process completed.
+Login completed.
+.Attempting to click the Politics tab...
+Politics link found and visible.
+Waiting for the Politics page to load...
+Politics page loaded.
+.Adding bet for: Kamala Harris with odds 2 and amount 307
+Bet added to betslip for Kamala Harris.
+Adding bet for: Donald Trump with odds 4 and amount 391
+Bet added to betslip for Donald Trump.
+Adding bet for: Nikki Haley with odds 3 and amount 324
+Bet added to betslip for Nikki Haley.
+Profit for Kamala Harris found using first locator: £307.00
+Verifying bet for Kamala Harris
+Candidate: "Kamala Harris", Odds: "2", Stake: "307", ExpectedProfit: "307", ActualProfit: "307"
+Profit for Donald Trump found using first locator: £1,173.00
+Verifying bet for Donald Trump
+Candidate: "Donald Trump", Odds: "4", Stake: "391", ExpectedProfit: "1173", ActualProfit: "1173"
+Profit for Nikki Haley found using first locator: £648.00
+Verifying bet for Nikki Haley
+Candidate: "Nikki Haley", Odds: "3", Stake: "324", ExpectedProfit: "648", ActualProfit: "648"
+Clicking "Cancel all selections" button...
+All selections canceled.
+.Placing a back bet on Donald Trump and entering only odds: 2
+Placing a back bet on Donald Trump...
+Back bet placed on Donald Trump.
+Entering odds: 2
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Entering only stake amount: 50
+Entering stake: 50
+Clearing the odds field...
+Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+After entering stake, is "Place bets" button enabled? false
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Placing a bet on Donald Trump with odds 2 and stake 123456789
+Adding bet for: Donald Trump with odds 2 and amount 123456789
+Bet added to betslip for Donald Trump.
+Clicking "Place bets" button...
+Clicked "Place bets" button.
+Clicking "Confirm bets" button...
+Clicked "Confirm bets" button.
+Bet placed and confirmed for Donald Trump with odds 2 and stake 123456789.
+.Error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Received error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Placing a back bet on Kamala Harris...
+Placing a back bet on Kamala Harris...
+Back bet placed on Kamala Harris.
+Clicking "Cancel all selections" button...
+Clicking "Cancel all selections" button...
+.Logging out...
+Log Out button found and visible.
+Tearing down after logout...
+Tearing down...
+Closing context...
+Closing browser...
+F
+
+Failures:
+
+1) Scenario: Entering a stake that exceeds the account balance # src\test\features\place_bets.feature:25
+   √ When I place a bet on "Donald Trump" with odds "2" and a stake of "123456789" # src\test\steps\place_bets_steps.ts:58
+   √ Then an error message should be displayed indicating insufficient funds # src\test\steps\place_bets_steps.ts:73
+   × Then I log out from the application # src\test\steps\place_bets_steps.ts:124
+       Error: function timed out, ensure the promise resolves within 5000 milliseconds
+           at Timeout.<anonymous> (C:\Users\pawan\Documents\Workspace\bddAssignment\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+           at listOnTimeout (node:internal/timers:573:17)
+           at processTimers (node:internal/timers:514:7)
+
+4 scenarios (1 failed, 3 passed)
+10 steps (1 failed, 9 passed)
+0m51.848s (executing steps: 0m51.811s)
+Teardown completed.
+
+
+Run #7
+
+Run #7 completed successfully.
+
+> bddassignment@1.0.0 test
+> npm run clean && npx cucumber-js --format json:reports/cucumber-report.json && npm run generate-report
+
+
+> bddassignment@1.0.0 clean
+> node cleanup.js
+
+Successfully deleted contents of screenshots directory.
+Successfully deleted contents of videos directory.
+Cleanup process completed.
+Setting up browser and context...
+Logging in to Betfair...
+Navigating to Betfair login page...
+Navigated to https://www.betfair.com/
+Navigated to https://www.betfair.com/
+Waiting for page to fully load...
+Handling cookies...
+Checking for 'Allow all cookies' button...
+Element getByRole('button', { name: 'Allow all cookies' }) is visible
+Clicking 'Allow all cookies' button...
+Clicked on element getByRole('button', { name: 'Allow all cookies' })
+Taking screenshot before filling in login details...
+Screenshot taken: screenshots\before-login.png
+Filling in login details...
+Filling username...
+Filling password...
+Taking screenshot before clicking 'Log In' button...
+Screenshot taken: screenshots\before-click-login.png
+Clicking 'Log In' button...
+Clicked on element getByRole('button', { name: 'Log In' })
+Waiting for the main page to appear...
+Taking screenshot after login...
+Screenshot taken: screenshots\after-login.png
+Login process completed.
+Login completed.
+.Attempting to click the Politics tab...
+Politics link found and visible.
+Waiting for the Politics page to load...
+Politics page loaded.
+.Adding bet for: Kamala Harris with odds 4 and amount 131
+Bet added to betslip for Kamala Harris.
+Adding bet for: Donald Trump with odds 5 and amount 458
+Bet added to betslip for Donald Trump.
+Adding bet for: Nikki Haley with odds 2 and amount 499
+Bet added to betslip for Nikki Haley.
+Profit for Kamala Harris found using first locator: £393.00
+Verifying bet for Kamala Harris
+Candidate: "Kamala Harris", Odds: "4", Stake: "131", ExpectedProfit: "393", ActualProfit: "393"
+Profit for Donald Trump found using first locator: £1,832.00
+Verifying bet for Donald Trump
+Candidate: "Donald Trump", Odds: "5", Stake: "458", ExpectedProfit: "1832", ActualProfit: "1832"
+Profit for Nikki Haley found using first locator: £499.00
+Verifying bet for Nikki Haley
+Candidate: "Nikki Haley", Odds: "2", Stake: "499", ExpectedProfit: "499", ActualProfit: "499"
+Clicking "Cancel all selections" button...
+All selections canceled.
+.Placing a back bet on Donald Trump and entering only odds: 2
+Placing a back bet on Donald Trump...
+Back bet placed on Donald Trump.
+Entering odds: 2
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Entering only stake amount: 50
+Entering stake: 50
+Clearing the odds field...
+Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+After entering stake, is "Place bets" button enabled? false
+.Checking if "Place bets" button is enabled...
+Is place bet button enabled? false
+Checking if "Place bets" button is enabled: false
+.Placing a bet on Donald Trump with odds 2 and stake 123456789
+Adding bet for: Donald Trump with odds 2 and amount 123456789
+Bet added to betslip for Donald Trump.
+Clicking "Place bets" button...
+Clicked "Place bets" button.
+Clicking "Confirm bets" button...
+Clicked "Confirm bets" button.
+Bet placed and confirmed for Donald Trump with odds 2 and stake 123456789.
+.Error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Received error message: You do not have sufficient available funds to place these bets or you have exceeded your exposure limit. Deposit now
+Placing a back bet on Kamala Harris...
+Placing a back bet on Kamala Harris...
+Back bet placed on Kamala Harris.
+Clicking "Cancel all selections" button...
+Clicking "Cancel all selections" button...
+.Logging out...
+Log Out button found and visible.
+Tearing down after logout...
+Tearing down...
+Closing context...
+Closing browser...
+Teardown completed.
+.
+
+4 scenarios (4 passed)
+10 steps (10 passed)
+1m04.360s (executing steps: 1m04.333s)
+
+> bddassignment@1.0.0 generate-report
+> node generateReport.js
+
+
+🚀 Cucumber HTML report reports/cucumber-html-report.html generated successfully 👍
+
+
+Run #8
+

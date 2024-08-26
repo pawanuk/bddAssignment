@@ -9,10 +9,7 @@ Feature: Place bets on multiple candidates
       | Kamala Harris  |
       | Donald Trump   |
       | Nikki Haley    |
-  @exceeds-balance
-  Scenario: Entering a stake that exceeds the account balance
-    When I place a bet on "Donald Trump" with odds "2" and a stake of "123456789"
-    Then an error message should be displayed indicating insufficient funds
+  
 
   @only-odds
   Scenario: Entering only odds
@@ -24,4 +21,8 @@ Feature: Place bets on multiple candidates
     When I enter only a stake amount without entering any odds
     Then the "Place bets" button should not be enabled
 
+@exceeds-balance
+  Scenario: Entering a stake that exceeds the account balance
+    When I place a bet on "Donald Trump" with odds "2" and a stake of "123456789"
+    Then an error message should be displayed indicating insufficient funds
     Then I log out from the application
