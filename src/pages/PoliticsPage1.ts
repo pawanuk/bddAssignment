@@ -21,7 +21,28 @@
 //     profitLocator: (candidateName: string) => this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`),
 //     errorMessage: this.page.locator('p.error-message__statement'),
 //     cancelAllSelectionsButton: this.page.locator('//button[normalize-space()="Cancel all selections"]'),
+//     consentOverlay: this.page.locator('#onetrust-consent-sdk'), // Added locator for consent overlay
+//     acceptCookiesButton: this.page.locator('button:has-text("Accept Cookies")') // Added locator for accept cookies button
 //   };
+
+//   async handleConsentOverlay(): Promise<void> {
+//     const consentOverlay = this.pageElements.consentOverlay;
+//     const acceptCookiesButton = this.pageElements.acceptCookiesButton;
+
+//     if (await consentOverlay.isVisible()) {
+//       console.log("Consent overlay detected. Attempting to accept cookies...");
+//       if (await acceptCookiesButton.isVisible()) {
+//         await acceptCookiesButton.click();
+//         console.log("Clicked 'Accept Cookies' button.");
+//       } else {
+//         console.warn("Accept Cookies button not found. Consent overlay might block interactions.");
+//       }
+//       await consentOverlay.waitFor({ state: 'hidden', timeout: 5000 });
+//       console.log("Consent overlay dismissed.");
+//     } else {
+//       console.log("No consent overlay detected.");
+//     }
+//   }
 
 //   async navigateToPoliticsSection(): Promise<void> {
 //     console.log("Attempting to click the Politics tab...");
@@ -56,6 +77,7 @@
 //   async login(username: string, password: string): Promise<void> {
 //     console.log("Logging in...");
 //     await this.page.goto('https://www.betfair.com/login', { waitUntil: 'networkidle' });
+//     await this.handleConsentOverlay(); // Ensure the consent overlay is handled before proceeding
 //     await this.page.fill('input[name="username"]', username);
 //     await this.page.fill('input[name="password"]', password);
 //     await this.page.click('button[type="submit"]');
@@ -71,11 +93,9 @@
 //   async placeBackBetOnCandidate(candidateName: string): Promise<void> {
 //     console.log(`Placing a back bet on ${candidateName}...`);
   
-//     // Locate the candidate row
 //     const candidateRow = this.page.locator(`//h3[text()="${candidateName}"]/ancestor::tr`);
 //     await candidateRow.waitFor({ state: 'visible', timeout: 60000 });
   
-//     // Click the back button on the candidate's row
 //     const backButton = candidateRow.locator('.bet-buttons.back-cell.last-back-cell button:has-text("£")');
 //     await backButton.click();
   
@@ -87,24 +107,18 @@
   
 //     const betslip = this.page.locator('betslip-editable-bet');
   
-//     // Clear the odds field first
 //     console.log('Clearing the odds field...');
-//     await this.pageElements.betslipOdds(betslip).fill(''); // Clears the odds field
+//     await this.pageElements.betslipOdds(betslip).fill('');
   
-//     // Wait for a short period to allow any UI updates after clearing the odds field
-//     await this.page.waitForTimeout(500); // Adjust the timeout as needed
+//     await this.page.waitForTimeout(500);
   
-//     // Enter the stake amount
 //     await this.pageElements.betslipAmount(betslip).fill(stake);
   
-//     // Wait again briefly to allow the UI to update based on the stake amount entered
-//     await this.page.waitForTimeout(500); // Adjust the timeout as needed
+//     await this.page.waitForTimeout(500);
   
-//     // Optionally, check if the "Place bets" button is enabled after entering the stake
 //     const isEnabled = await this.isPlaceBetButtonEnabled();
 //     console.log(`After entering stake, is "Place bets" button enabled? ${isEnabled}`);
 //   }
-  
 
 //   async cancelAllSelections(): Promise<void> {
 //     console.log('Clicking "Cancel all selections" button...');
@@ -114,13 +128,13 @@
 //   async getErrorMessage(): Promise<string> {
 //     const errorMessage = await this.pageElements.errorMessage.textContent();
 //     console.log(`Error message: ${errorMessage}`);
-//     return errorMessage || '';  // Return an empty string if the error message is null
+//     return errorMessage || ''; 
 //   }
 
 //   async isPlaceBetButtonEnabled(): Promise<boolean> {
 //     console.log('Checking if "Place bets" button is enabled...');
   
-//     const isEnabled = await this.pageElements.placeBetButton.isVisible(); // Checks if the button is visible and enabled
+//     const isEnabled = await this.pageElements.placeBetButton.isVisible(); 
 //     console.log(`Is place bet button enabled? ${isEnabled}`);
     
 //     return isEnabled;
@@ -265,5 +279,10 @@
 //     if (!logoutButton) {
 //       throw new Error('Log Out button not found using any of the locators');
 //     }
+
+//     // Ensure proper teardown after logout
+//     console.log("Tearing down after logout...");
+//     await this.page.close();
 //   }
 // }
+

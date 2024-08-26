@@ -1,0 +1,14 @@
+[
+    {
+        "candidateName": "Kamala Harris",
+        "odds": "20",
+        "stake": "100",
+        "expectedProfit": "1900"
+    },
+    {
+        "candidateName": "Donald Trump",
+        "odds": "30",
+        "stake": "200",
+        "expectedProfit": "5800"
+    }
+]

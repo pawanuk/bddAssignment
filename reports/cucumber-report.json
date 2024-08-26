@@ -15,11 +15,11 @@
             "line": 5,
             "name": "I am logged in to Betfair",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:14"
+              "location": "src\\test\\steps\\place_bets_steps.ts:16"
             },
             "result": {
               "status": "passed",
-              "duration": 40426818800
+              "duration": 34734235199
             }
           },
           {
@@ -28,11 +28,11 @@
             "line": 6,
             "name": "I navigate to the Politics section",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:39"
+              "location": "src\\test\\steps\\place_bets_steps.ts:41"
             },
             "result": {
               "status": "passed",
-              "duration": 709920800
+              "duration": 158751800
             }
           },
           {
@@ -66,11 +66,11 @@
             "line": 7,
             "name": "I place a bet on the following candidates:",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:43"
+              "location": "src\\test\\steps\\place_bets_steps.ts:45"
             },
             "result": {
               "status": "passed",
-              "duration": 7858619500
+              "duration": 2115227999
             }
           }
         ],
@@ -95,11 +95,11 @@
             "line": 16,
             "name": "I enter only odds without entering a stake amount",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:98"
+              "location": "src\\test\\steps\\place_bets_steps.ts:100"
             },
             "result": {
               "status": "passed",
-              "duration": 709886100
+              "duration": 235048800
             }
           },
           {
@@ -108,11 +108,11 @@
             "line": 17,
             "name": "the \"Place bets\" button should not be enabled",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:108"
+              "location": "src\\test\\steps\\place_bets_steps.ts:110"
             },
             "result": {
               "status": "passed",
-              "duration": 541880800
+              "duration": 506398000
             }
           }
         ],
@@ -141,11 +141,11 @@
             "line": 21,
             "name": "I enter only a stake amount without entering any odds",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:117"
+              "location": "src\\test\\steps\\place_bets_steps.ts:119"
             },
             "result": {
               "status": "passed",
-              "duration": 1409415500
+              "duration": 1140171199
             }
           },
           {
@@ -154,11 +154,11 @@
             "line": 22,
             "name": "the \"Place bets\" button should not be enabled",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:108"
+              "location": "src\\test\\steps\\place_bets_steps.ts:110"
             },
             "result": {
               "status": "passed",
-              "duration": 524522099
+              "duration": 516188099
             }
           }
         ],
@@ -187,11 +187,11 @@
             "line": 26,
             "name": "I place a bet on \"Donald Trump\" with odds \"2\" and a stake of \"123456789\"",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:58"
+              "location": "src\\test\\steps\\place_bets_steps.ts:60"
             },
             "result": {
               "status": "passed",
-              "duration": 2048402899
+              "duration": 537140399
             }
           },
           {
@@ -200,24 +200,11 @@
             "line": 27,
             "name": "an error message should be displayed indicating insufficient funds",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:73"
+              "location": "src\\test\\steps\\place_bets_steps.ts:75"
             },
             "result": {
               "status": "passed",
-              "duration": 1543628199
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 28,
-            "name": "I log out from the application",
-            "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:124"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 2649861299
+              "duration": 564092199
             }
           }
         ],
@@ -229,6 +216,78 @@
           {
             "name": "@exceeds-balance",
             "line": 24
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "place-bets-on-multiple-candidates;place-bets-on-candidates-using-json-data",
+        "keyword": "Scenario",
+        "line": 31,
+        "name": "Place bets on candidates using JSON data",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 33,
+            "name": "I load candidate data from the JSON file \"src/test-data/betData.json\"",
+            "match": {
+              "location": "src\\test\\steps\\place_bets_steps.ts:136"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 752000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 34,
+            "name": "I place bets using the candidate data from the JSON file",
+            "match": {
+              "location": "src\\test\\steps\\place_bets_steps.ts:156"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4094596599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 35,
+            "name": "I verify the profits for all candidates from the JSON file",
+            "match": {
+              "location": "src\\test\\steps\\place_bets_steps.ts:206"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1232100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 36,
+            "name": "I log out from the application",
+            "match": {
+              "location": "src\\test\\steps\\place_bets_steps.ts:126"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 760077300
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@placeBets",
+            "line": 1
+          },
+          {
+            "name": "@json-bets",
+            "line": 30
           }
         ],
         "type": "scenario"

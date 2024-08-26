@@ -4,6 +4,8 @@ import { LoginPage } from '../../pages/LoginPage';
 import { PoliticsPage } from '../../pages/PoliticsPage';
 import { cleanDirectories, takeScreenshotOnFailure, closeResources } from '../../utils/testHelpers';
 import { BetResult } from '../../types/BetResult';
+import * as fs from 'fs';
+import * as path from 'path';
 
 let browser: Browser;
 let context: BrowserContext;
@@ -128,3 +130,101 @@ Then('I log out from the application', async function () {
   await takeScreenshotOnFailure(this, page);
   await closeResources(page, context, browser);
 });
+
+// New step definitions for handling JSON data
+
+Given('I load candidate data from the JSON file {string}', function (filePath: string) {
+  const fullPath = path.resolve(process.cwd(), filePath); // Ensuring correct path
+  const data = fs.readFileSync(fullPath, 'utf8');
+  
+  try {
+    this.candidates = JSON.parse(data); // Parsing and assigning to `this.candidates`
+    console.log(`Loaded candidate data from ${fullPath}`);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to parse JSON file at ${fullPath}: ${error.message}`);
+    } else {
+      throw new Error(`Failed to parse JSON file at ${fullPath}: Unknown error`);
+    }
+  }
+
+  if (!Array.isArray(this.candidates)) {
+    throw new Error(`Expected an array of candidates, but got: ${typeof this.candidates}`);
+  }
+});
+
+When('I place bets using the candidate data from the JSON file', async function () {
+  // Step to navigate to the Politics section first
+  await politicsPage.navigateToPoliticsSection();
+
+  // Initialize an array to store bet results
+  this.betResults = [];
+
+  // Loop through each candidate from the JSON data and place bets
+  for (const candidate of this.candidates) {
+    const { candidateName, odds, stake, expectedProfit } = candidate;
+
+    try {
+      // Place the bet using the methods in PoliticsPage
+      await politicsPage.placeBet(candidateName, parseFloat(odds), parseFloat(stake));
+      
+      // Capture the actual profit using the method in PoliticsPage
+      let actualProfit = await politicsPage.getDisplayedProfit(candidateName);
+
+      if (actualProfit === undefined) {
+        throw new Error(`Failed to retrieve actual profit for ${candidateName}`);
+      }
+
+      // Ensure actualProfit is treated as a string
+      const actualProfitString = actualProfit.toString().replace('£', '').replace(',', '');
+
+      // Log candidate details
+      console.log(`Candidate: ${candidateName}`);
+      console.log(`Odds: ${odds}`);
+      console.log(`Stake: ${stake}`);
+      console.log(`Expected Profit: ${expectedProfit}`);
+      console.log(`Actual Profit: ${actualProfitString}`);
+
+      // Store the result for later comparison
+      this.betResults.push({
+        name: candidateName,
+        odds: odds.toString(),  // Ensure odds are a string
+        amount: stake.toString(),  // Ensure stake is a string
+        profit: parseFloat(actualProfitString), // Convert cleaned string to a number
+        expectedProfit: expectedProfit
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to place bet for ${candidateName}: ${error.message}`);
+      } else {
+        throw new Error(`Failed to place bet for ${candidateName}: Unknown error`);
+      }
+    }
+  }
+});
+
+Then('I verify the profits for all candidates from the JSON file', function () {
+  let scenarioPassed = true;
+
+  for (const result of this.betResults) {
+    const expectedProfit = parseFloat(result.expectedProfit.toString());
+    const actualProfit = parseFloat(result.profit.toString());
+
+    console.log(`Comparing profits for ${result.name}`);
+    console.log(`Expected Profit: ${expectedProfit}, Actual Profit: ${actualProfit}`);
+
+    // Check if the values are exactly equal
+    if (Math.abs(expectedProfit - actualProfit) > Number.EPSILON) {
+      console.error(`Profit mismatch for ${result.name}: Expected ${expectedProfit}, but got ${actualProfit}`);
+      scenarioPassed = false;
+    }
+  }
+
+  if (!scenarioPassed) {
+    throw new Error('Profit comparison failed for one or more candidates.');
+  }
+});
+
+
+
+

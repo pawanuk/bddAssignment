@@ -25,4 +25,12 @@ Feature: Place bets on multiple candidates
   Scenario: Entering a stake that exceeds the account balance
     When I place a bet on "Donald Trump" with odds "2" and a stake of "123456789"
     Then an error message should be displayed indicating insufficient funds
-    Then I log out from the application
+   
+
+@json-bets
+Scenario: Place bets on candidates using JSON data
+# Given I am logged in to Betfair
+  Given I load candidate data from the JSON file "src/test-data/betData.json"
+    When I place bets using the candidate data from the JSON file
+    Then I verify the profits for all candidates from the JSON file
+  Then I log out from the application

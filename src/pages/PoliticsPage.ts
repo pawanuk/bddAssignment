@@ -21,8 +21,8 @@ export class PoliticsPage extends BasePage {
     profitLocator: (candidateName: string) => this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`),
     errorMessage: this.page.locator('p.error-message__statement'),
     cancelAllSelectionsButton: this.page.locator('//button[normalize-space()="Cancel all selections"]'),
-    consentOverlay: this.page.locator('#onetrust-consent-sdk'), // Added locator for consent overlay
-    acceptCookiesButton: this.page.locator('button:has-text("Accept Cookies")') // Added locator for accept cookies button
+    consentOverlay: this.page.locator('#onetrust-consent-sdk'), // Locator for consent overlay
+    acceptCookiesButton: this.page.locator('button:has-text("Accept Cookies")') // Locator for accept cookies button
   };
 
   async handleConsentOverlay(): Promise<void> {
@@ -285,4 +285,3 @@ export class PoliticsPage extends BasePage {
     await this.page.close();
   }
 }
-
