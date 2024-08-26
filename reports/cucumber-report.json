@@ -10,24 +10,16 @@
         "name": "Place bets on candidates with random data",
         "steps": [
           {
-            "keyword": "Before",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 1648492100
-            }
-          },
-          {
             "arguments": [],
             "keyword": "Given ",
             "line": 5,
             "name": "I am logged in to Betfair",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:41"
+              "location": "src\\test\\steps\\place_bets_steps.ts:20"
             },
             "result": {
               "status": "passed",
-              "duration": 8346893500
+              "duration": 39866711600
             }
           },
           {
@@ -40,7 +32,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 2589898499
+              "duration": 223816000
             }
           },
           {
@@ -78,7 +70,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 931954599
+              "duration": 3046255600
             }
           },
           {
@@ -87,11 +79,11 @@
             "line": 12,
             "name": "I log out from the application",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:56"
+              "location": "src\\test\\steps\\place_bets_steps.ts:66"
             },
             "result": {
               "status": "passed",
-              "duration": 216004599
+              "duration": 351123600
             }
           },
           {
@@ -99,7 +91,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 268796200
+              "duration": 1718509099
             }
           }
         ],

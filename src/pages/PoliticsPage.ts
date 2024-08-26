@@ -18,7 +18,8 @@ export class PoliticsPage extends BasePage {
     betslipOdds: (betslip: Locator) => betslip.locator('betslip-price-ladder').getByRole('textbox'),
     betslipAmount: (betslip: Locator) => betslip.locator('betslip-size-input').getByRole('textbox'),
     profitLocator: (candidateName: string) => this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`),
-    errorMessage: this.page.locator('p.error-message__statement')  // Added error message locator
+    errorMessage: this.page.locator('p.error-message__statement'),  // Added error message locator
+    cancelAllSelectionsButton: this.page.locator('//button[normalize-space()="Cancel all selections"]'),
   };
 
   async navigateToPoliticsSection(): Promise<void> {
@@ -72,7 +73,10 @@ export class PoliticsPage extends BasePage {
     const betslip = this.page.locator('betslip-editable-bet');
     await this.pageElements.betslipAmount(betslip).fill(stake);
   }
-
+  async cancelAllSelections(): Promise<void> {
+    console.log('Clicking "Cancel all selections" button...');
+    await this.pageElements.cancelAllSelectionsButton.click();
+  }
   async getErrorMessage(): Promise<string> {
     const errorMessage = await this.pageElements.errorMessage.textContent();
     console.log(`Error message: ${errorMessage}`);
@@ -94,12 +98,12 @@ export class PoliticsPage extends BasePage {
 
   async placeBetsOnCandidates(candidates: string[]): Promise<BetResult[]> {
     const betResults: BetResult[] = [];
-
+  
     for (const candidateName of candidates) {
       const randomOdds = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
       const randomAmount = Math.floor(Math.random() * (500 - 10 + 1)) + 10;
       const expectedProfit = (randomOdds - 1) * randomAmount;
-
+  
       try {
         await this.placeBet(candidateName, randomOdds, randomAmount);
         betResults.push({ 
@@ -118,9 +122,10 @@ export class PoliticsPage extends BasePage {
         });
       }
     }
-
+  
     return betResults;
   }
+  
 
   async placeBet(candidateName: string, odds: number, amount: number): Promise<void> {
     console.log(`Adding bet for: ${candidateName} with odds ${odds} and amount ${amount}`);
@@ -140,37 +145,58 @@ export class PoliticsPage extends BasePage {
 
   async verifyBets(betResults: BetResult[]): Promise<boolean> {
     let scenarioPassed = true;
-
+  
     for (const result of betResults) {
       const actualProfit = await this.getDisplayedProfit(result.name);
       console.log(`Verifying bet for ${result.name}`);
-
+  
+      // Logging the details for each candidate
+      console.log(`Candidate: "${result.name}", Odds: "${result.odds}", Stake: "${result.amount}", ExpectedProfit: "${result.profit}", ActualProfit: "${actualProfit}"`);
+  
       if (result.profit !== actualProfit) {
         console.error(`Verification failed for ${result.name}: Expected profit: ${result.profit}, Actual profit: ${actualProfit}`);
         scenarioPassed = false;
       }
     }
-
+  
     return scenarioPassed;
   }
+  
+  
 
   async getDisplayedProfit(candidateName: string): Promise<number | undefined> {
-    const profitLocator = this.pageElements.profitLocator(candidateName);
-
+    const profitLocator1 = this.page.locator(`//span[text()="${candidateName}"]/ancestor::div/following-sibling::div//span[contains(text(),'£')]`);
+    const profitLocator2 = this.page.locator(`//span[text()="${candidateName}"]/ancestor::section[contains(@class, 'betslip__potential-bet') or contains(@class, 'betslip-editable-bet')]//span[contains(@ng-bind, '$ctrl.liabilityValue')]`);
+  
     try {
-      await profitLocator.waitFor({ state: 'visible', timeout: 5000 });
-      const profitText = await profitLocator.textContent();
-      if (!profitText) {
-        console.error(`Profit text for ${candidateName} was not found.`);
-        return undefined;
+      // Try the first locator
+      await profitLocator1.waitFor({ state: 'visible', timeout: 60000 });
+      const profitText1 = await profitLocator1.textContent();
+      if (profitText1) {
+        console.log(`Profit for ${candidateName} found using first locator: ${profitText1}`);
+        return parseFloat(profitText1.replace(/[^0-9.-]+/g, ""));
       }
-      console.log(`Profit for ${candidateName}: ${profitText}`);
-      return parseFloat(profitText.replace(/[^0-9.-]+/g, ""));
-    } catch (error) {
-      console.error(`Could not find profit for ${candidateName}. Error: ${error}`);
+    } catch (error1) {
+      console.warn(`First locator failed for ${candidateName}: ${(error1 as Error).message}`);
+    }
+  
+    try {
+      // Fallback to the second locator
+      await profitLocator2.waitFor({ state: 'visible', timeout: 60000 });
+      const profitText2 = await profitLocator2.textContent();
+      if (profitText2) {
+        console.log(`Profit for ${candidateName} found using second locator: ${profitText2}`);
+        return parseFloat(profitText2.replace(/[^0-9.-]+/g, ""));
+      }
+    } catch (error2) {
+      console.error(`Could not find profit for ${candidateName} using any locator. Error: ${(error2 as Error).message}`);
       return undefined;
     }
+  
+    return undefined;
   }
+  
+  
 
   async logout(): Promise<void> {
     console.log("Logging out...");
