@@ -1,5 +1,6 @@
-import path from 'path';
 import { Page, Locator } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export class LoginPage {
   private page: Page;
@@ -14,7 +15,6 @@ export class LoginPage {
   constructor(page: Page) {
     this.page = page;
 
-    // Initialize locators after the page has been assigned
     this.locators = {
       usernameInput: this.page.locator('input[placeholder="email/username"]'),
       passwordInput: this.page.locator('input[placeholder="password"]'),
@@ -24,18 +24,17 @@ export class LoginPage {
     };
   }
 
-  async login(username: string, password: string) {
+  async login(url: string, username: string, password: string) {
     try {
       console.log("Navigating to Betfair login page...");
-      await this.goto('https://www.betfair.com/');
-      console.log("Navigated to https://www.betfair.com/");
+      await this.goto(url); // Pass the URL directly as an argument
+      console.log(`Navigated to ${url}`);
 
-      // Hard wait to ensure page is fully loaded
       console.log("Waiting for page to fully load...");
       await this.page.waitForTimeout(10000);
 
       console.log("Handling cookies...");
-      await this.acceptCookies();
+      await this.acceptCookies(); // Handle overlay
 
       console.log("Taking screenshot before filling in login details...");
       await this.takeScreenshot('before-login.png');

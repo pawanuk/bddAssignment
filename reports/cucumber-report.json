@@ -15,11 +15,11 @@
             "line": 5,
             "name": "I am logged in to Betfair",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:16"
+              "location": "src\\test\\steps\\place_bets_steps.ts:17"
             },
             "result": {
               "status": "passed",
-              "duration": 34734235199
+              "duration": 35070710999
             }
           },
           {
@@ -28,11 +28,11 @@
             "line": 6,
             "name": "I navigate to the Politics section",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:41"
+              "location": "src\\test\\steps\\place_bets_steps.ts:42"
             },
             "result": {
               "status": "passed",
-              "duration": 158751800
+              "duration": 178621999
             }
           },
           {
@@ -66,11 +66,11 @@
             "line": 7,
             "name": "I place a bet on the following candidates:",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:45"
+              "location": "src\\test\\steps\\place_bets_steps.ts:46"
             },
             "result": {
               "status": "passed",
-              "duration": 2115227999
+              "duration": 2155675400
             }
           }
         ],
@@ -95,11 +95,11 @@
             "line": 16,
             "name": "I enter only odds without entering a stake amount",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:100"
+              "location": "src\\test\\steps\\place_bets_steps.ts:101"
             },
             "result": {
               "status": "passed",
-              "duration": 235048800
+              "duration": 207972099
             }
           },
           {
@@ -108,11 +108,11 @@
             "line": 17,
             "name": "the \"Place bets\" button should not be enabled",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:110"
+              "location": "src\\test\\steps\\place_bets_steps.ts:111"
             },
             "result": {
               "status": "passed",
-              "duration": 506398000
+              "duration": 507770500
             }
           }
         ],
@@ -141,11 +141,11 @@
             "line": 21,
             "name": "I enter only a stake amount without entering any odds",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:119"
+              "location": "src\\test\\steps\\place_bets_steps.ts:120"
             },
             "result": {
               "status": "passed",
-              "duration": 1140171199
+              "duration": 1154009899
             }
           },
           {
@@ -154,11 +154,11 @@
             "line": 22,
             "name": "the \"Place bets\" button should not be enabled",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:110"
+              "location": "src\\test\\steps\\place_bets_steps.ts:111"
             },
             "result": {
               "status": "passed",
-              "duration": 516188099
+              "duration": 510637500
             }
           }
         ],
@@ -187,11 +187,11 @@
             "line": 26,
             "name": "I place a bet on \"Donald Trump\" with odds \"2\" and a stake of \"123456789\"",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:60"
+              "location": "src\\test\\steps\\place_bets_steps.ts:61"
             },
             "result": {
               "status": "passed",
-              "duration": 537140399
+              "duration": 528706099
             }
           },
           {
@@ -200,11 +200,11 @@
             "line": 27,
             "name": "an error message should be displayed indicating insufficient funds",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:75"
+              "location": "src\\test\\steps\\place_bets_steps.ts:76"
             },
             "result": {
               "status": "passed",
-              "duration": 564092199
+              "duration": 555085399
             }
           }
         ],
@@ -233,11 +233,11 @@
             "line": 33,
             "name": "I load candidate data from the JSON file \"src/test-data/betData.json\"",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:136"
+              "location": "src\\test\\steps\\place_bets_steps.ts:137"
             },
             "result": {
               "status": "passed",
-              "duration": 752000
+              "duration": 1698800
             }
           },
           {
@@ -246,11 +246,11 @@
             "line": 34,
             "name": "I place bets using the candidate data from the JSON file",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:156"
+              "location": "src\\test\\steps\\place_bets_steps.ts:157"
             },
             "result": {
               "status": "passed",
-              "duration": 4094596599
+              "duration": 4148423200
             }
           },
           {
@@ -259,11 +259,11 @@
             "line": 35,
             "name": "I verify the profits for all candidates from the JSON file",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:206"
+              "location": "src\\test\\steps\\place_bets_steps.ts:207"
             },
             "result": {
               "status": "passed",
-              "duration": 1232100
+              "duration": 1392599
             }
           },
           {
@@ -272,11 +272,11 @@
             "line": 36,
             "name": "I log out from the application",
             "match": {
-              "location": "src\\test\\steps\\place_bets_steps.ts:126"
+              "location": "src\\test\\steps\\place_bets_steps.ts:127"
             },
             "result": {
               "status": "passed",
-              "duration": 760077300
+              "duration": 840276499
             }
           }
         ],

@@ -6,6 +6,7 @@ import { cleanDirectories, takeScreenshotOnFailure, closeResources } from '../..
 import { BetResult } from '../../types/BetResult';
 import * as fs from 'fs';
 import * as path from 'path';
+import { ENV } from '../../utils/env'; 
 
 let browser: Browser;
 let context: BrowserContext;
@@ -29,11 +30,11 @@ Given('I am logged in to Betfair', { timeout: 60 * 1000 }, async function () {
   politicsPage = new PoliticsPage(page);
 
   console.log("Logging in to Betfair...");
+const url=ENV.url;
+  const username = ENV.username; // Use environment variable
+  const password = ENV.password; // Use environment variable
 
-  const username = 'pawanuk';
-  const password = 'Pawankumar12';
-
-  await loginPage.login(username, password);
+  await loginPage.login(url,username, password);
 
   console.log("Login completed.");
 });
