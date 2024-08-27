@@ -1,6 +1,7 @@
 import { Page, Locator } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
+import { ENV } from '../utils/env';
 
 export class LoginPage {
   private page: Page;
@@ -15,6 +16,7 @@ export class LoginPage {
   constructor(page: Page) {
     this.page = page;
 
+    // Initialize locators after assigning the page
     this.locators = {
       usernameInput: this.page.locator('input[placeholder="email/username"]'),
       passwordInput: this.page.locator('input[placeholder="password"]'),
