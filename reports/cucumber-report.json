@@ -19,7 +19,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 35602071199
+              "duration": 43118485899
             }
           },
           {
@@ -32,7 +32,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 3247076200
+              "duration": 5171736199
             }
           },
           {
@@ -70,7 +70,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1561101800
+              "duration": 4498915800
             }
           }
         ],
@@ -99,7 +99,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 274700199
+              "duration": 689556199
             }
           },
           {
@@ -112,7 +112,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 512093399
+              "duration": 522041099
             }
           }
         ],
@@ -145,7 +145,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1132681000
+              "duration": 1252149800
             }
           },
           {
@@ -158,7 +158,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 510048099
+              "duration": 515675599
             }
           }
         ],
@@ -191,7 +191,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 622505899
+              "duration": 1159568199
             }
           },
           {
@@ -204,7 +204,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 598575599
+              "duration": 1279671800
             }
           }
         ],
@@ -237,7 +237,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 937899
+              "duration": 2219500
             }
           },
           {
@@ -249,8 +249,9 @@
               "location": "src\\test\\steps\\place_bets_steps.ts:157"
             },
             "result": {
-              "status": "passed",
-              "duration": 3214504400
+              "status": "failed",
+              "duration": 5015847699,
+              "error_message": "Error: function timed out, ensure the promise resolves within 5000 milliseconds\n    at Timeout.<anonymous> (C:\\Users\\pawan\\Documents\\Workspace\\bddAssignment\\node_modules\\@cucumber\\cucumber\\src\\time.ts:52:14)\n    at listOnTimeout (node:internal/timers:573:17)\n    at processTimers (node:internal/timers:514:7)"
             }
           },
           {
@@ -262,8 +263,8 @@
               "location": "src\\test\\steps\\place_bets_steps.ts:207"
             },
             "result": {
-              "status": "passed",
-              "duration": 1232100
+              "status": "skipped",
+              "duration": 0
             }
           },
           {
@@ -275,8 +276,8 @@
               "location": "src\\test\\steps\\place_bets_steps.ts:127"
             },
             "result": {
-              "status": "passed",
-              "duration": 568946799
+              "status": "skipped",
+              "duration": 0
             }
           }
         ],
